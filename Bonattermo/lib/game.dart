@@ -14,14 +14,7 @@ class _GameState extends State<Game> {
 
   int actualTry = 1;
   int cursorPosition = 0;
-  List<String> wordsTryed = [
-    '     ',
-    '     ',
-    '     ',
-    '     ',
-    '     ',
-    '     '
-  ];
+  List<String> wordsTryed = [];
 
   void _showToast(String message) {
     final scaffold = ScaffoldMessenger.of(context);
@@ -49,6 +42,7 @@ class _GameState extends State<Game> {
   }
 
   void _enter() {
+    if (gameFinished) return;
     String word = wordsTryed[actualTry - 1];
     if (word.contains(' ')) {
       _showToast('só palavras com 5 letras');
@@ -60,8 +54,18 @@ class _GameState extends State<Game> {
     }
 
     setState(() {
+      if (word == widget.word) {
+        gameFinished = true;
+        _showToast('parabéns');
+      }
+
       actualTry++;
       cursorPosition = 0;
+
+      if (actualTry > widget.totalOfTrys) {
+        gameFinished = true;
+        _showToast('infelizmente não foi dessa vez: ' + widget.word);
+      }
     });
   }
 
@@ -253,11 +257,18 @@ class _GameState extends State<Game> {
     return widgets;
   }
 
+  void initState() {
+    super.initState();
+    for (var i = 0; i < widget.totalOfTrys; i++) {
+      wordsTryed.add('     ');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bonattermo'),
+        title: Text('BonaTTermo'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
