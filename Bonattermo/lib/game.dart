@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 class Game extends StatefulWidget {
-  const Game(this.word) : super();
+  const Game(this.word, this.words, this.totalOfTrys) : super();
   final String word;
+  final List<String> words;
+  final totalOfTrys;
   @override
   State<Game> createState() => _GameState();
 }
 
 class _GameState extends State<Game> {
   bool gameFinished = false;
-  final totalOfTrys = 6;
+
   int actualTry = 1;
   int cursorPosition = 0;
   List<String> wordsTryed = [
@@ -20,6 +22,17 @@ class _GameState extends State<Game> {
     '     ',
     '     '
   ];
+
+  void _showToast(String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        // action: SnackBarAction(
+        //     label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
 
   void _typeLetter(String letter) {
     if (gameFinished) return;
@@ -36,6 +49,16 @@ class _GameState extends State<Game> {
   }
 
   void _enter() {
+    String word = wordsTryed[actualTry - 1];
+    if (word.contains(' ')) {
+      _showToast('só palavras com 5 letras');
+      return;
+    }
+    if (!widget.words.contains(word.toLowerCase())) {
+      _showToast('essa palavra não existe');
+      return;
+    }
+
     setState(() {
       actualTry++;
       cursorPosition = 0;
@@ -106,7 +129,7 @@ class _GameState extends State<Game> {
   Widget _createKey(String letter) {
     var color = Colors.blueGrey;
     return GestureDetector(
-      onTap: () => letter == '<--' ? _backspace() : _typeLetter(letter),
+      onTap: () => _typeLetter(letter),
       child: Container(
         height: 34.0,
         width: 34.0,
@@ -126,6 +149,29 @@ class _GameState extends State<Game> {
     );
   }
 
+  Widget _createBackspaceKey() {
+    var color = Colors.blueGrey;
+    return GestureDetector(
+      onTap: () => _backspace(),
+      child: Container(
+        height: 34.0,
+        width: 34.0,
+        margin: const EdgeInsets.all(2.0),
+        padding: const EdgeInsets.all(1.0),
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.blueAccent), color: color),
+        child: Center(
+          child: Text(
+            '<--',
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _createEnterKey() {
     var color = Colors.blueGrey;
     return GestureDetector(
@@ -133,7 +179,7 @@ class _GameState extends State<Game> {
       child: Container(
         height: 30.0,
         width: 80.0,
-        margin: const EdgeInsets.all(3.0),
+        margin: const EdgeInsets.all(2.0),
         padding: const EdgeInsets.all(1.0),
         decoration: BoxDecoration(
             border: Border.all(color: Colors.blueAccent), color: color),
@@ -179,7 +225,7 @@ class _GameState extends State<Game> {
             _createKey('J'),
             _createKey('K'),
             _createKey('L'),
-            _createKey('<--'),
+            _createBackspaceKey(),
           ],
         ),
         Row(
@@ -199,6 +245,14 @@ class _GameState extends State<Game> {
     );
   }
 
+  List<Widget> _buildGame() {
+    List<Widget> widgets = [];
+    for (var i = 1; i <= widget.totalOfTrys; i++) {
+      widgets.add(_createGameBoard(i));
+    }
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -210,12 +264,7 @@ class _GameState extends State<Game> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(padding: EdgeInsets.only(top: 20.0)),
-          _createGameBoard(1),
-          _createGameBoard(2),
-          _createGameBoard(3),
-          _createGameBoard(4),
-          _createGameBoard(5),
-          _createGameBoard(6),
+          ..._buildGame(),
           Expanded(child: Container()),
           _buildKeyboard(),
           Padding(padding: EdgeInsets.only(bottom: 10.0)),
