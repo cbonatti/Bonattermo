@@ -13,9 +13,7 @@ namespace BonattermoHelper
 
         static async Task Main(string[] args)
         {
-            words = await FiveLengthWords("https://raw.githubusercontent.com/fserb/pt-br/master/conjuga%C3%A7%C3%B5es");
-            words.AddRange(await FiveLengthWords("https://raw.githubusercontent.com/fserb/pt-br/master/palavras"));
-            words.AddRange(await FiveLengthWords("https://raw.githubusercontent.com/fserb/pt-br/master/verbos"));
+            words = await FiveLengthWords("https://raw.githubusercontent.com/fserb/pt-br/master/data");
             await File.WriteAllLinesAsync("words.txt", words);
             Console.WriteLine("Processo Finalizado!");
         }
@@ -25,7 +23,13 @@ namespace BonattermoHelper
             var client = new HttpClient();
             var result = await client.GetAsync(url);
             var content = await result.Content.ReadAsStringAsync();
-            return content.Split('\n').Where(x => x.Length == 5).ToList();
+            return content
+                        .Split('\n')
+                        .Where(x => 
+                            x.IndexOf(',') == 5 
+                            && Convert.ToInt64(x.Substring(6, x.IndexOf(',', 6) - 6)) > 100000)
+                        .Select(x => x.Substring(0, 5))
+                        .ToList();
         }
     }
 }
