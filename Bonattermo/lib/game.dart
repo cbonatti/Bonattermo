@@ -70,9 +70,11 @@ class _GameState extends State<Game> {
   }
 
   void _backspace() {
+    String word = wordsTryed[actualTry - 1];
     setState(() {
+      if (word.characters.elementAt(cursorPosition) == ' ' &&
+          cursorPosition > 0) cursorPosition--;
       replaceActualWord(cursorPosition, ' ');
-      if (cursorPosition > 0) cursorPosition--;
     });
   }
 
