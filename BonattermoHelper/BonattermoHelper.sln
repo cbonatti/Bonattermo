@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BonattermoHelper", "BonattermoHelper.csproj", "{404F50FE-8A4C-447E-8E58-961AEC9E003E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{404F50FE-8A4C-447E-8E58-961AEC9E003E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{404F50FE-8A4C-447E-8E58-961AEC9E003E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{404F50FE-8A4C-447E-8E58-961AEC9E003E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{404F50FE-8A4C-447E-8E58-961AEC9E003E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91E95FF9-A319-4E62-A493-2CDCF9214477}
+	EndGlobalSection
+EndGlobal
