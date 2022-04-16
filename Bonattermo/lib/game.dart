@@ -23,6 +23,7 @@ class _GameState extends State<Game> {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
+        duration: Duration(milliseconds: 600),
         content: Text(message),
         // action: SnackBarAction(
         //     label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
@@ -49,10 +50,23 @@ class _GameState extends State<Game> {
     for (var i = 0; i < 5; i++) {
       String letter = word.characters.elementAt(i);
       if (widget.word.contains(letter)) {
-        // TODO - check if exists
         letterExists.add(letter);
       } else {
         letterNonExists.add(letter);
+      }
+    }
+  }
+
+  void _nextWord() {
+    if (actualTry <= widget.totalOfTrys - 1) {
+      String word = wordsTryed[actualTry - 1];
+      for (var i = 0; i < 5; i++) {
+        String letter = word.characters.elementAt(i);
+        if (widget.word.characters.elementAt(i) == letter) {
+          String nextWord = wordsTryed[actualTry];
+          nextWord = nextWord.substring(0, i) + letter + word.substring(i + 1);
+          wordsTryed[actualTry] = nextWord;
+        }
       }
     }
   }
@@ -76,6 +90,7 @@ class _GameState extends State<Game> {
       }
 
       _checkLetters();
+      _nextWord();
 
       actualTry++;
       cursorPosition = 0;
