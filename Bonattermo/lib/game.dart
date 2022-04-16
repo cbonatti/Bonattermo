@@ -139,7 +139,7 @@ class _GameState extends State<Game> {
           child: Text(
             letter.toUpperCase(),
             style: TextStyle(
-              fontSize: 50.0,
+              fontSize: 47.0,
             ),
           ),
         ),
