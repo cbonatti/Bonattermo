@@ -28,7 +28,30 @@ namespace BonattermoHelper
                         .Where(x => 
                             x.IndexOf(',') == 5 
                             && Convert.ToInt64(x.Substring(6, x.IndexOf(',', 6) - 6)) > 100000)
-                        .Select(x => x.Substring(0, 5))
+                        .Select(x => x.Substring(0, 5)
+                            .Replace('ã', 'a')
+                            .Replace('á', 'a')
+                            .Replace('ä', 'a')
+                            .Replace('à', 'a')
+                            .Replace('â', 'a')
+                            .Replace('è', 'e')
+                            .Replace('é', 'e')
+                            .Replace('ë', 'e')
+                            .Replace('ê', 'e')
+                            .Replace('ì', 'i')
+                            .Replace('í', 'i')
+                            .Replace('ï', 'i')
+                            .Replace('î', 'i')
+                            .Replace('õ', 'o')
+                            .Replace('ò', 'o')
+                            .Replace('ó', 'o')
+                            .Replace('ö', 'o')
+                            .Replace('ô', 'o')
+                            .Replace('ù', 'u')
+                            .Replace('ú', 'u')
+                            .Replace('ü', 'u')
+                            .Replace('û', 'u')
+                            .Replace('ç', 'c'))
                         .ToList();
         }
     }
