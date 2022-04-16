@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'howToPlay.dart';
+import 'lose-game-dialog.dart';
 import 'won-game-dialog.dart';
 
 class Game extends StatefulWidget {
@@ -104,7 +105,10 @@ class _GameState extends State<Game> {
 
       if (actualTry > widget.totalOfTrys) {
         gameFinished = true;
-        _showToast('infelizmente não foi dessa vez: ' + widget.word);
+        showDialog(
+          context: context,
+          builder: (_) => LoseGameDialogBox(widget.word),
+        );
       }
     });
   }

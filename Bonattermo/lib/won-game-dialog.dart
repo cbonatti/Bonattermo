@@ -8,7 +8,7 @@ class WonGameDialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Parabéns",
+      title: Text("Parabéns !!",
           style: TextStyle(
               color: Colors.green,
               fontWeight: FontWeight.bold,
