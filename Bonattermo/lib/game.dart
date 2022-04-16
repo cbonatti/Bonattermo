@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'howToPlay.dart';
+import 'won-game-dialog.dart';
 
 class Game extends StatefulWidget {
   const Game(this.word, this.words, this.totalOfTrys) : super();
@@ -89,7 +90,55 @@ class _GameState extends State<Game> {
     setState(() {
       if (word == widget.word) {
         gameFinished = true;
-        _showToast('parabéns');
+        showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+                  title: Text("Parabéns",
+                      style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 40.0)),
+                  content: RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: "Você acertou a palavra ",
+                            style:
+                                TextStyle(color: Colors.green, fontSize: 20.0)),
+                        TextSpan(
+                            text: word,
+                            style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold)),
+                        TextSpan(
+                            text: " em ",
+                            style:
+                                TextStyle(color: Colors.green, fontSize: 20.0)),
+                        TextSpan(
+                            text: actualTry.toString(),
+                            style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold)),
+                        TextSpan(
+                            text: " tentativas",
+                            style:
+                                TextStyle(color: Colors.green, fontSize: 20.0)),
+                      ],
+                    ),
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Fechar'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                ));
+        return;
       }
 
       _checkLetters();
@@ -337,7 +386,7 @@ class _GameState extends State<Game> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return CustomDialogBox();
+                        return InfoDialogBox();
                       });
                 },
                 child: Icon(
@@ -362,8 +411,8 @@ class _GameState extends State<Game> {
   }
 }
 
-class CustomDialogBox extends StatelessWidget {
-  const CustomDialogBox({Key? key}) : super(key: key);
+class InfoDialogBox extends StatelessWidget {
+  const InfoDialogBox({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
