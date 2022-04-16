@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'howToPlay.dart';
+
 class Game extends StatefulWidget {
   const Game(this.word, this.words, this.totalOfTrys) : super();
   final String word;
@@ -64,7 +66,8 @@ class _GameState extends State<Game> {
         String letter = word.characters.elementAt(i);
         if (widget.word.characters.elementAt(i) == letter) {
           String nextWord = wordsTryed[actualTry];
-          nextWord = nextWord.substring(0, i) + letter + word.substring(i + 1);
+          nextWord =
+              nextWord.substring(0, i) + letter + nextWord.substring(i + 1);
           wordsTryed[actualTry] = nextWord;
         }
       }
@@ -326,6 +329,23 @@ class _GameState extends State<Game> {
     return Scaffold(
       appBar: AppBar(
         title: Text('BonaTTermo'),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return CustomDialogBox();
+                      });
+                },
+                child: Icon(
+                  Icons.info,
+                  size: 26.0,
+                ),
+              )),
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -338,6 +358,19 @@ class _GameState extends State<Game> {
           Padding(padding: EdgeInsets.only(bottom: 30.0)),
         ],
       ),
+    );
+  }
+}
+
+class CustomDialogBox extends StatelessWidget {
+  const CustomDialogBox({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      elevation: 1,
+      backgroundColor: Colors.white,
+      child: HowToPlay(),
     );
   }
 }
