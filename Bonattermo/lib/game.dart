@@ -82,6 +82,7 @@ class _GameState extends State<Game> {
     String letter = word[index].toUpperCase();
     Color color = Colors.white;
     Color borderColor = Colors.blueAccent;
+    double borderWidth = 1.0;
 
     if (letter != ' ') {
       color = Colors.red;
@@ -94,6 +95,7 @@ class _GameState extends State<Game> {
     }
     if (cursorPosition == index && gameIndex == actualTry) {
       borderColor = Colors.black;
+      borderWidth = 3.0;
     }
     if (gameIndex == actualTry) {
       color = Colors.white;
@@ -104,8 +106,9 @@ class _GameState extends State<Game> {
       width: 50.0,
       margin: const EdgeInsets.all(3.0),
       padding: const EdgeInsets.all(3.0),
-      decoration:
-          BoxDecoration(border: Border.all(color: borderColor), color: color),
+      decoration: BoxDecoration(
+          border: Border.all(color: borderColor, width: borderWidth),
+          color: color),
       child: Center(
         child: Text(
           letter.toUpperCase(),
@@ -280,7 +283,7 @@ class _GameState extends State<Game> {
           ..._buildGame(),
           Expanded(child: Container()),
           _buildKeyboard(),
-          Padding(padding: EdgeInsets.only(bottom: 10.0)),
+          Padding(padding: EdgeInsets.only(bottom: 30.0)),
         ],
       ),
     );
