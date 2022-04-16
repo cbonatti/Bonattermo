@@ -186,9 +186,9 @@ class _GameState extends State<Game> {
     return GestureDetector(
       onTap: () => _enter(),
       child: Container(
-        height: 30.0,
+        height: 34.0,
         width: 80.0,
-        margin: const EdgeInsets.all(2.0),
+        margin: const EdgeInsets.fromLTRB(8.0, 2.0, 2.0, 2.0),
         padding: const EdgeInsets.all(1.0),
         decoration: BoxDecoration(
             border: Border.all(color: Colors.blueAccent), color: color),
