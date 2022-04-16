@@ -79,6 +79,12 @@ class _GameState extends State<Game> {
     });
   }
 
+  void _changeCursor(int index) {
+    setState(() {
+      cursorPosition = index;
+    });
+  }
+
   Widget _wordBox(int index, String word, int gameIndex) {
     String letter = word[index].toUpperCase();
     Color color = Colors.white;
@@ -102,19 +108,22 @@ class _GameState extends State<Game> {
       color = Colors.white;
     }
 
-    return Container(
-      height: 60.0,
-      width: 50.0,
-      margin: const EdgeInsets.all(3.0),
-      padding: const EdgeInsets.all(3.0),
-      decoration: BoxDecoration(
-          border: Border.all(color: borderColor, width: borderWidth),
-          color: color),
-      child: Center(
-        child: Text(
-          letter.toUpperCase(),
-          style: TextStyle(
-            fontSize: 50.0,
+    return GestureDetector(
+      onTap: () => _changeCursor(index),
+      child: Container(
+        height: 60.0,
+        width: 50.0,
+        margin: const EdgeInsets.all(3.0),
+        padding: const EdgeInsets.all(3.0),
+        decoration: BoxDecoration(
+            border: Border.all(color: borderColor, width: borderWidth),
+            color: color),
+        child: Center(
+          child: Text(
+            letter.toUpperCase(),
+            style: TextStyle(
+              fontSize: 50.0,
+            ),
           ),
         ),
       ),
