@@ -15,6 +15,7 @@ class _GameState extends State<Game> {
   int actualTry = 1;
   int cursorPosition = 0;
   List<String> wordsTryed = [];
+  double screenWidth = 0.0;
 
   void _showToast(String message) {
     final scaffold = ScaffoldMessenger.of(context);
@@ -140,8 +141,8 @@ class _GameState extends State<Game> {
     return GestureDetector(
       onTap: () => _typeLetter(letter),
       child: Container(
-        height: 34.0,
-        width: 34.0,
+        height: 45.0,
+        width: screenWidth / 12,
         margin: const EdgeInsets.all(2.0),
         padding: const EdgeInsets.all(1.0),
         decoration: BoxDecoration(
@@ -163,8 +164,8 @@ class _GameState extends State<Game> {
     return GestureDetector(
       onTap: () => _backspace(),
       child: Container(
-        height: 34.0,
-        width: 34.0,
+        height: 45.0,
+        width: screenWidth / 12,
         margin: const EdgeInsets.all(2.0),
         padding: const EdgeInsets.all(1.0),
         decoration: BoxDecoration(
@@ -186,8 +187,8 @@ class _GameState extends State<Game> {
     return GestureDetector(
       onTap: () => _enter(),
       child: Container(
-        height: 34.0,
-        width: 80.0,
+        height: 45.0,
+        width: (screenWidth / 12) * 2.5,
         margin: const EdgeInsets.fromLTRB(8.0, 2.0, 2.0, 2.0),
         padding: const EdgeInsets.all(1.0),
         decoration: BoxDecoration(
@@ -271,6 +272,7 @@ class _GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text('BonaTTermo'),
