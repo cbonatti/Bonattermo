@@ -32,15 +32,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<String> loadAsset() async {
-    return await rootBundle.loadString('assets/words.txt');
+  Future<String> _loadAsset(String path) async {
+    return await rootBundle.loadString('assets/' + path);
   }
 
   final _random = new Random();
   int next(int min, int max) => min + _random.nextInt(max - min);
 
   void _newGame() async {
-    var allWords = await loadAsset();
+    var allWords = await _loadAsset('words.txt');
     List<String> words = [];
     for (var item in allWords.split('\n')) {
       words.add(item.substring(0, 5));
@@ -53,6 +53,15 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       MaterialPageRoute(
           builder: (context) => Game(word.toUpperCase(), words, 6)),
+    );
+  }
+
+  Future<String> _loadHistory() async {
+    var history = await _loadAsset('game-history.txt');
+    //return history;
+    return Future<String>.delayed(
+      const Duration(seconds: 2),
+      () => history,
     );
   }
 
@@ -79,7 +88,50 @@ class _MyHomePageState extends State<MyHomePage> {
               )),
         ],
       ),
-      body: Container(),
+      body: FutureBuilder<String>(
+        future: _loadHistory(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+              child: Text(snapshot.data.toString()),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.error_outline,
+                    color: Colors.red,
+                    size: 60,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Text('Erro ao carregar histórico'),
+                  )
+                ],
+              ),
+            );
+          } else {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: CircularProgressIndicator(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 16),
+                    child: Text('Carregando resultados...'),
+                  )
+                ],
+              ),
+            );
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _newGame,
         tooltip: 'Novo Jogo',
