@@ -15,6 +15,8 @@ class _GameState extends State<Game> {
   int actualTry = 1;
   int cursorPosition = 0;
   List<String> wordsTryed = [];
+  List<String> letterExists = [];
+  List<String> letterNonExists = [];
   double screenWidth = 0.0;
 
   void _showToast(String message) {
@@ -42,6 +44,19 @@ class _GameState extends State<Game> {
     wordsTryed[actualTry - 1] = word;
   }
 
+  void _checkLetters() {
+    String word = wordsTryed[actualTry - 1];
+    for (var i = 0; i < 5; i++) {
+      String letter = word.characters.elementAt(i);
+      if (widget.word.contains(letter)) {
+        // TODO - check if exists
+        letterExists.add(letter);
+      } else {
+        letterNonExists.add(letter);
+      }
+    }
+  }
+
   void _enter() {
     if (gameFinished) return;
     String word = wordsTryed[actualTry - 1];
@@ -59,6 +74,8 @@ class _GameState extends State<Game> {
         gameFinished = true;
         _showToast('parabéns');
       }
+
+      _checkLetters();
 
       actualTry++;
       cursorPosition = 0;
@@ -146,7 +163,16 @@ class _GameState extends State<Game> {
   }
 
   Widget _createKey(String letter) {
-    var color = Colors.blueGrey;
+    var color = Colors.blueGrey[600];
+    var borderColor = Colors.black;
+    if (letterNonExists.contains(letter)) {
+      color = Colors.grey[200];
+      borderColor = Colors.grey;
+    }
+    if (letterExists.contains(letter)) {
+      color = Colors.blue;
+    }
+
     return GestureDetector(
       onTap: () => _typeLetter(letter),
       child: Container(
@@ -154,13 +180,14 @@ class _GameState extends State<Game> {
         width: screenWidth / 12,
         margin: const EdgeInsets.all(2.0),
         padding: const EdgeInsets.all(1.0),
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.blueAccent), color: color),
+        decoration:
+            BoxDecoration(border: Border.all(color: borderColor), color: color),
         child: Center(
           child: Text(
             letter.toUpperCase(),
             style: TextStyle(
               fontSize: 20.0,
+              color: Colors.white,
             ),
           ),
         ),
@@ -169,7 +196,7 @@ class _GameState extends State<Game> {
   }
 
   Widget _createBackspaceKey() {
-    var color = Colors.blueGrey;
+    var color = Colors.blueGrey[600];
     return GestureDetector(
       onTap: () => _backspace(),
       child: Container(
@@ -178,13 +205,11 @@ class _GameState extends State<Game> {
         margin: const EdgeInsets.all(2.0),
         padding: const EdgeInsets.all(1.0),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.blueAccent), color: color),
+            border: Border.all(color: Colors.black), color: color),
         child: Center(
-          child: Text(
-            '<--',
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
+          child: Icon(
+            Icons.backspace_outlined,
+            color: Colors.white,
           ),
         ),
       ),
@@ -192,7 +217,7 @@ class _GameState extends State<Game> {
   }
 
   Widget _createEnterKey() {
-    var color = Colors.blueGrey;
+    var color = Colors.blueGrey[600];
     return GestureDetector(
       onTap: () => _enter(),
       child: Container(
@@ -201,12 +226,13 @@ class _GameState extends State<Game> {
         margin: const EdgeInsets.fromLTRB(8.0, 2.0, 2.0, 2.0),
         padding: const EdgeInsets.all(1.0),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.blueAccent), color: color),
+            border: Border.all(color: Colors.black), color: color),
         child: Center(
           child: Text(
             'ENTER',
             style: TextStyle(
               fontSize: 20.0,
+              color: Colors.white,
             ),
           ),
         ),
