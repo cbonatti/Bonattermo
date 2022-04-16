@@ -45,13 +45,40 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     var index = next(0, words.length);
-    var word = words[index];
+    var word = _fixWord(words[index]);
 
     Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => Game(word.toUpperCase(), words, 6)),
     );
+  }
+
+  String _fixWord(String word) {
+    return word
+        .replaceAll('ã', 'a')
+        .replaceAll('á', 'a')
+        .replaceAll('ä', 'a')
+        .replaceAll('à', 'a')
+        .replaceAll('â', 'a')
+        .replaceAll('è', 'e')
+        .replaceAll('é', 'e')
+        .replaceAll('ë', 'e')
+        .replaceAll('ê', 'e')
+        .replaceAll('ì', 'i')
+        .replaceAll('í', 'i')
+        .replaceAll('ï', 'i')
+        .replaceAll('î', 'i')
+        .replaceAll('õ', 'o')
+        .replaceAll('ò', 'o')
+        .replaceAll('ó', 'o')
+        .replaceAll('ö', 'o')
+        .replaceAll('ô', 'o')
+        .replaceAll('ù', 'u')
+        .replaceAll('ú', 'u')
+        .replaceAll('ü', 'u')
+        .replaceAll('û', 'u')
+        .replaceAll('ç', 'c');
   }
 
   Widget _wordBox(int index, String word, String secretWord) {
