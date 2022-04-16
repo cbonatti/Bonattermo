@@ -1,5 +1,24 @@
 import 'package:flutter/material.dart';
 
+class HowToPlayDialogBox extends StatelessWidget {
+  const HowToPlayDialogBox({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: HowToPlay(),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('Fechar'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    );
+  }
+}
+
 class HowToPlay extends StatelessWidget {
   const HowToPlay({Key? key}) : super(key: key);
 

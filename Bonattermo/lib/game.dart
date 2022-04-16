@@ -345,7 +345,7 @@ class _GameState extends State<Game> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return InfoDialogBox();
+                        return HowToPlayDialogBox();
                       });
                 },
                 child: Icon(
@@ -366,19 +366,6 @@ class _GameState extends State<Game> {
           Padding(padding: EdgeInsets.only(bottom: 30.0)),
         ],
       ),
-    );
-  }
-}
-
-class InfoDialogBox extends StatelessWidget {
-  const InfoDialogBox({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      elevation: 1,
-      backgroundColor: Colors.white,
-      child: HowToPlay(),
     );
   }
 }

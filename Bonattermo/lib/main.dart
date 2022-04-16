@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'BonaTTermo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -60,8 +61,25 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return HowToPlayDialogBox();
+                      });
+                },
+                child: Icon(
+                  Icons.info,
+                  size: 26.0,
+                ),
+              )),
+        ],
       ),
-      body: HowToPlay(),
+      body: Container(),
       floatingActionButton: FloatingActionButton(
         onPressed: _newGame,
         tooltip: 'Novo Jogo',
