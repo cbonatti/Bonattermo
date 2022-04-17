@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import '../action-button.dart';
 import '../howToPlay.dart';
-import '../lose-game-dialog.dart';
-import '../won-game-dialog.dart';
 import 'game-helper.dart';
 
 class Game extends StatefulWidget {
-  const Game(this.word, this.words, this.totalOfTrys) : super();
+  const Game(this.word, this.words, this.totalOfTrys, {this.totalOfLetters = 5})
+      : super();
   final String word;
   final List<String> words;
   final totalOfTrys;
+  final totalOfLetters;
 
   @override
   State<Game> createState() => _GameState();
@@ -88,7 +88,7 @@ class _GameState extends State<Game> {
     String word = wordsTryed[actualTry - 1];
     for (var i = cursorPosition; i < word.length; i++) {
       if (word.characters.elementAt(i) != ' ') {
-        _changeCursor(i + 1);
+        if (i + 1 < word.length) _changeCursor(i + 1);
       } else {
         return;
       }
@@ -140,28 +140,11 @@ class _GameState extends State<Game> {
     });
   }
 
-  Widget _wordBox(int index, String word, int gameIndex) {
+  Widget _wordBox(int index, int gameIndex) {
+    String word = wordsTryed[gameIndex - 1];
     String letter = word[index].toUpperCase();
-    Color color = Colors.white;
-    Color borderColor = Colors.blueAccent;
-    double borderWidth = 1.0;
-
-    if (letter != ' ') {
-      color = Colors.red;
-    }
-    if (widget.word.contains(letter)) {
-      color = Colors.blue;
-      if (widget.word[index] == letter) {
-        color = Colors.green;
-      }
-    }
-    if (cursorPosition == index && gameIndex == actualTry) {
-      borderColor = Colors.black;
-      borderWidth = 3.0;
-    }
-    if (gameIndex == actualTry) {
-      color = Colors.white;
-    }
+    var wordStyle = helper.getWordStyle(
+        letter, index, cursorPosition, gameIndex, actualTry);
 
     return GestureDetector(
       onTap: () => _changeCursor(index),
@@ -169,10 +152,13 @@ class _GameState extends State<Game> {
         height: 60.0,
         width: 50.0,
         margin: const EdgeInsets.all(3.0),
-        padding: const EdgeInsets.all(3.0),
         decoration: BoxDecoration(
-            border: Border.all(color: borderColor, width: borderWidth),
-            color: color),
+          border: Border.all(
+            color: wordStyle.borderColor,
+            width: wordStyle.borderWidth,
+          ),
+          color: wordStyle.color,
+        ),
         child: Center(
           child: Text(
             letter.toUpperCase(),
@@ -186,18 +172,18 @@ class _GameState extends State<Game> {
   }
 
   Widget _createGameBoard(int index) {
-    String word = wordsTryed[index - 1];
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(padding: EdgeInsets.only(top: 30.0)),
-        _wordBox(0, word, index),
-        _wordBox(1, word, index),
-        _wordBox(2, word, index),
-        _wordBox(3, word, index),
-        _wordBox(4, word, index),
-      ],
+      children: _createWordBoxes(index),
     );
+  }
+
+  List<Widget> _createWordBoxes(int index) {
+    List<Widget> widgets = [];
+    for (var i = 0; i < widget.totalOfLetters; i++) {
+      widgets.add(_wordBox(i, index));
+    }
+    return widgets;
   }
 
   Widget _createKey(String letter) {
