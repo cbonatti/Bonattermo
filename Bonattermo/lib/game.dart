@@ -350,7 +350,8 @@ class _GameState extends State<Game> {
 
   Future<File> writeInHistory(bool won) async {
     final file = await _localFile;
-    String line = '${widget.word},${won.toString()},${actualTry.toString()}\n';
+    String line =
+        '${widget.word},${won.toString()},${won ? actualTry.toString() : widget.totalOfTrys}\n';
 
     return file.writeAsString(line, mode: FileMode.append);
   }

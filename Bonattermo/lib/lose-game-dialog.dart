@@ -8,31 +8,56 @@ class LoseGameDialogBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget _title() {
+      return Text(
+        "Eita nóis",
+        style: TextStyle(
+          color: Colors.red,
+          fontWeight: FontWeight.bold,
+          fontSize: 30.0,
+        ),
+      );
+    }
+
+    TextSpan _normalWord(String word) {
+      return TextSpan(
+        text: word,
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 20.0,
+        ),
+      );
+    }
+
+    TextSpan _hardWord(String word) {
+      return TextSpan(
+        text: word,
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+    }
+
     return AlertDialog(
-      title: Text("Eita nóis",
-          style: TextStyle(
-              color: Colors.red, fontWeight: FontWeight.bold, fontSize: 30.0)),
+      title: _title(),
       content: RichText(
         text: TextSpan(
           children: <TextSpan>[
-            TextSpan(
-                text: "Infelizmente não foi dessa vez!",
-                style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-            TextSpan(
-                text: "    A palavra era ",
-                style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-            TextSpan(
-                text: word,
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold)),
+            _normalWord("Infelizmente não foi dessa vez!"),
+            _normalWord("    A palavra era "),
+            _hardWord(word),
           ],
         ),
       ),
       actions: <Widget>[
-        FlatButton(
-          child: Text('Fechar'),
+        TextButton(
+          child: Text('Fechar',
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
+              )),
           onPressed: () {
             Navigator.of(context).pop();
             Navigator.of(context).pop();

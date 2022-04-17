@@ -8,42 +8,60 @@ class WonGameDialogBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget _title() {
+      return Text(
+        "Parabéns !!",
+        style: TextStyle(
+          color: Colors.green,
+          fontWeight: FontWeight.bold,
+          fontSize: 40.0,
+        ),
+      );
+    }
+
+    TextSpan _normalWord(String word) {
+      return TextSpan(
+        text: word,
+        style: TextStyle(
+          color: Colors.green,
+          fontSize: 20.0,
+        ),
+      );
+    }
+
+    TextSpan _hardWord(String word) {
+      return TextSpan(
+        text: word,
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+    }
+
     return AlertDialog(
-      title: Text("Parabéns !!",
-          style: TextStyle(
-              color: Colors.green,
-              fontWeight: FontWeight.bold,
-              fontSize: 40.0)),
+      title: _title(),
       content: RichText(
         text: TextSpan(
           children: <TextSpan>[
-            TextSpan(
-                text: "Você acertou a palavra ",
-                style: TextStyle(color: Colors.green, fontSize: 20.0)),
-            TextSpan(
-                text: word,
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold)),
-            TextSpan(
-                text: " em ",
-                style: TextStyle(color: Colors.green, fontSize: 20.0)),
-            TextSpan(
-                text: trys.toString(),
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold)),
-            TextSpan(
-                text: " tentativas",
-                style: TextStyle(color: Colors.green, fontSize: 20.0)),
+            _normalWord("Você acertou a palavra "),
+            _hardWord(word),
+            _normalWord(" em "),
+            _hardWord(trys.toString()),
+            _normalWord(" tentativas"),
           ],
         ),
       ),
       actions: <Widget>[
-        FlatButton(
-          child: Text('Fechar'),
+        TextButton(
+          child: Text(
+            'Fechar',
+            style: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           onPressed: () {
             Navigator.of(context).pop();
             Navigator.of(context).pop();

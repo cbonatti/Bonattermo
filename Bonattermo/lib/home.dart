@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
             ConfirmClearHistoryDialogBox(
               () async => {
                 await HistoryFile.deleteFile(),
-                setState(() {}),
+                setState(() {}), // force reload list
               },
             ),
             Icons.delete,
