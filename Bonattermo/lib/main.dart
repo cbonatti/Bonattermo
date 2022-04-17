@@ -8,6 +8,8 @@ import 'dart:math';
 
 import 'package:path_provider/path_provider.dart';
 
+import 'clear-history-dialog.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -77,11 +79,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void _clearHistory() async {
+    final file = await _localFile;
+    file.delete();
+  }
+
   Future<String> _loadHistory() async {
     var history = await _loadHistoryFile();
-    //return history;
     return Future<String>.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 500),
       () => history,
     );
   }
@@ -107,6 +113,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   size: 26.0,
                 ),
               )),
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ConfirmClearHistoryDialogBox(
+                            () => _clearHistory());
+                      });
+                },
+                child: Icon(
+                  Icons.clear,
+                  size: 26.0,
+                ),
+              )),
         ],
       ),
       body: FutureBuilder<String>(
@@ -125,11 +147,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     if (result[1] == true.toString()) {
                       color = Colors.green;
                       msg =
-                          'Acertou a palavra ${result[0]} em ${result[2]}tentativas';
+                          'Acertou a palavra ${result[0]} em ${result[2]} tentativas';
                     } else if (result[1] == false.toString()) {
                       color = Colors.red;
                       msg =
-                          'Errou a palavra ${result[0]} em ${result[2]}tentativas';
+                          'Errou a palavra ${result[0]} em ${result[2]} tentativas';
                     }
                     return Container(
                       height: 50,
