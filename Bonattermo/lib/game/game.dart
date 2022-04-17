@@ -32,7 +32,10 @@ class _GameState extends State<Game> {
     if (gameFinished) return;
     setState(() {
       replaceActualWord(cursorPosition, letter);
-      if (cursorPosition < (widget.word.length - 1)) cursorPosition++;
+      if (cursorPosition < (widget.word.length - 1)) {
+        cursorPosition++;
+        _checkActualWord();
+      }
     });
   }
 
@@ -44,7 +47,7 @@ class _GameState extends State<Game> {
 
   void _checkLetters() {
     String word = wordsTryed[actualTry - 1];
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < word.length; i++) {
       String letter = word.characters.elementAt(i);
       if (widget.word.contains(letter)) {
         letterExists.add(letter);
@@ -65,6 +68,29 @@ class _GameState extends State<Game> {
               nextWord.substring(0, i) + letter + nextWord.substring(i + 1);
           wordsTryed[actualTry] = nextWord;
         }
+      }
+      _checkNextWord();
+    }
+  }
+
+  void _checkNextWord() {
+    String nextWord = wordsTryed[actualTry];
+    for (var i = 0; i < nextWord.length; i++) {
+      if (nextWord.characters.elementAt(i) != ' ') {
+        cursorPosition = i + 1;
+      } else {
+        return;
+      }
+    }
+  }
+
+  void _checkActualWord() {
+    String word = wordsTryed[actualTry - 1];
+    for (var i = cursorPosition; i < word.length; i++) {
+      if (word.characters.elementAt(i) != ' ') {
+        cursorPosition = i + 1;
+      } else {
+        return;
       }
     }
   }
@@ -91,11 +117,13 @@ class _GameState extends State<Game> {
         return;
       }
 
+      // must be before next checks, because it will be repositioned, like if the first letter exists, move to second
+      cursorPosition = 0;
+
       _checkLetters();
       _nextWord();
 
       actualTry++;
-      cursorPosition = 0;
 
       if (actualTry > widget.totalOfTrys) {
         gameFinished = true;
