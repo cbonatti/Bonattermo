@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:bonattermo/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;

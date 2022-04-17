@@ -1,3 +1,4 @@
+import 'package:bonattermo/action-button.dart';
 import 'package:bonattermo/howToPlay.dart';
 import 'package:flutter/material.dart';
 
@@ -38,39 +39,17 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text('BonaTTermo'),
         actions: [
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return HowToPlayDialogBox();
-                      });
-                },
-                child: Icon(
-                  Icons.info,
-                  size: 26.0,
-                ),
-              )),
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ConfirmClearHistoryDialogBox(() async => {
-                              await HistoryFile.deleteFile(),
-                              setState(() {}),
-                            });
-                      });
-                },
-                child: Icon(
-                  Icons.delete,
-                  size: 26.0,
-                ),
-              )),
+          ActionButton.create(context, HowToPlayDialogBox(), Icons.info),
+          ActionButton.create(
+            context,
+            ConfirmClearHistoryDialogBox(
+              () async => {
+                await HistoryFile.deleteFile(),
+                setState(() {}),
+              },
+            ),
+            Icons.delete,
+          ),
         ],
       ),
       body: History(),
@@ -78,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () => NewGame().newGame(context),
         tooltip: 'Novo Jogo',
         child: Icon(Icons.play_arrow),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

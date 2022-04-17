@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'action-button.dart';
 import 'howToPlay.dart';
 import 'lose-game-dialog.dart';
 import 'won-game-dialog.dart';
@@ -361,21 +362,7 @@ class _GameState extends State<Game> {
       appBar: AppBar(
         title: Text('BonaTTermo'),
         actions: [
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return HowToPlayDialogBox();
-                      });
-                },
-                child: Icon(
-                  Icons.info,
-                  size: 26.0,
-                ),
-              )),
+          ActionButton.create(context, HowToPlayDialogBox(), Icons.info),
         ],
       ),
       body: Column(
