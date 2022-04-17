@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'action-button.dart';
-import 'howToPlay.dart';
-import 'lose-game-dialog.dart';
-import 'won-game-dialog.dart';
+import '../action-button.dart';
+import '../howToPlay.dart';
+import '../lose-game-dialog.dart';
+import '../won-game-dialog.dart';
 
 class Game extends StatefulWidget {
   const Game(this.word, this.words, this.totalOfTrys) : super();
@@ -33,8 +33,6 @@ class _GameState extends State<Game> {
       SnackBar(
         duration: Duration(milliseconds: 600),
         content: Text(message),
-        // action: SnackBarAction(
-        //     label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
   }
