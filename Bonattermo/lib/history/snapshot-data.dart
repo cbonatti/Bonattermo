@@ -11,36 +11,43 @@ class SnapshotData extends StatelessWidget {
     }
     var entries = data.toString().split('\n');
     return Container(
-      child: ListView.separated(
+      child: ListView.builder(
         padding: const EdgeInsets.all(8),
         itemCount: entries.length - 1,
         itemBuilder: (BuildContext context, int index) {
           return _buildListItem(entries, index);
         },
-        separatorBuilder: (BuildContext context, int index) => const Divider(
-          height: 6.0,
-          thickness: 1.0,
-        ),
       ),
     );
   }
 
   Widget _buildListItem(List<String> entries, int index) {
     var result = entries[index].split(',');
-    var color = Colors.white;
-    var msg = '';
+    String word = result[0];
+    bool won = result[1] == true.toString();
+    String trys = result[2];
 
-    if (result[1] == true.toString()) {
-      color = Colors.green;
-      msg = 'Acertou a palavra ${result[0]} em ${result[2]} tentativas';
-    } else if (result[1] == false.toString()) {
-      color = Colors.red;
-      msg = 'Errou a palavra ${result[0]} em ${result[2]} tentativas';
-    }
-    return Container(
-      height: 50,
-      color: color,
-      child: Center(child: Text(msg)),
+    if (won)
+      return Card(
+        child: ListTile(
+          leading: Icon(
+            Icons.thumb_up,
+            color: Colors.green,
+          ),
+          title: Text(word),
+          trailing: Text('$trys tentativas'),
+        ),
+      );
+
+    return Card(
+      child: ListTile(
+        leading: Icon(
+          Icons.thumb_down,
+          color: Colors.red,
+        ),
+        title: Text(word),
+        trailing: Text('$trys tentativas'),
+      ),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'action-button.dart';
-import 'clear-history-dialog.dart';
+import 'history/clear-history-dialog.dart';
 import 'game/new-game.dart';
 import 'history/history-file.dart';
 import 'history/history.dart';
