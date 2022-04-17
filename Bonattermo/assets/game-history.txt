@@ -1,3 +1,0 @@
-FOMOS,true,5
-TESTE,false,6
-COISA,,0

@@ -54,9 +54,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<String> _loadHistoryFile() async {
-    final file = await _localFile;
-    final contents = await file.readAsString();
-    return contents;
+    try {
+      final file = await _localFile;
+      final contents = await file.readAsString();
+      return contents;
+    } catch (e) {
+      return '';
+    }
   }
 
   final _random = new Random();
@@ -125,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                 },
                 child: Icon(
-                  Icons.clear,
+                  Icons.delete,
                   size: 26.0,
                 ),
               )),
@@ -135,11 +139,15 @@ class _MyHomePageState extends State<MyHomePage> {
         future: _loadHistory(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            if (snapshot.data == '') {
+              return Container();
+            }
             var entries = snapshot.data.toString().split('\n');
+            print(entries);
             return Container(
               child: ListView.builder(
                   padding: const EdgeInsets.all(8),
-                  itemCount: entries.length,
+                  itemCount: entries.length - 1,
                   itemBuilder: (BuildContext context, int index) {
                     var result = entries[index].split(',');
                     var color = Colors.white;
@@ -172,7 +180,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 16),
-                    child: Text('Erro ao carregar histórico'),
+                    child: Text(
+                        'Erro ao carregar histórico. Error: ${snapshot.error}'),
                   )
                 ],
               ),
