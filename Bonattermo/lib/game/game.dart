@@ -239,52 +239,30 @@ class _GameState extends State<Game> {
     );
   }
 
+  Widget _createKeyboardKeyRow(List<String> keys) {
+    List<Widget> widgets = [];
+    for (var key in keys) {
+      if (key == 'ENTER')
+        widgets.add(_createEnterKey());
+      else if (key == 'BS')
+        widgets.add(_createBackspaceKey());
+      else
+        widgets.add(_createKey(key));
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: widgets,
+    );
+  }
+
   Widget _buildKeyboard() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _createKey('Q'),
-            _createKey('W'),
-            _createKey('E'),
-            _createKey('R'),
-            _createKey('T'),
-            _createKey('Y'),
-            _createKey('U'),
-            _createKey('I'),
-            _createKey('O'),
-            _createKey('P'),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _createKey('A'),
-            _createKey('S'),
-            _createKey('D'),
-            _createKey('F'),
-            _createKey('G'),
-            _createKey('H'),
-            _createKey('J'),
-            _createKey('K'),
-            _createKey('L'),
-            _createBackspaceKey(),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _createKey('Z'),
-            _createKey('X'),
-            _createKey('C'),
-            _createKey('V'),
-            _createKey('B'),
-            _createKey('N'),
-            _createKey('M'),
-            _createEnterKey(),
-          ],
-        ),
+        _createKeyboardKeyRow(
+            ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']),
+        _createKeyboardKeyRow(
+            ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'BS']),
+        _createKeyboardKeyRow(['Z', 'X', 'C', 'V', 'B', 'N', 'M', 'ENTER']),
       ],
     );
   }
@@ -300,7 +278,7 @@ class _GameState extends State<Game> {
   void initState() {
     super.initState();
     for (var i = 0; i < widget.totalOfTrys; i++) {
-      wordsTryed.add('     ');
+      wordsTryed.add(' '.padRight(5));
     }
     helper = GameHelper(context, widget.word, widget.words, widget.totalOfTrys);
   }
