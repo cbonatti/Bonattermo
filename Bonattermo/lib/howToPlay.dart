@@ -7,6 +7,11 @@ class HowToPlayDialogBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: HowToPlay(),
+      title: Text(
+        'Como jogar:',
+        style: TextStyle(
+            color: Colors.black87, fontSize: 20.0, fontWeight: FontWeight.bold),
+      ),
       actions: <Widget>[
         FlatButton(
           child: Text('Fechar'),
@@ -24,33 +29,18 @@ class HowToPlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget _wordBox(int index, String word, String secretWord) {
-      String letter = word[index].toUpperCase();
-      Color color = Colors.white;
-      Color borderColor = Colors.blueAccent;
-
-      if (letter != ' ') {
-        color = Colors.red;
-      }
-      if (secretWord.contains(letter)) {
-        color = Colors.blue;
-        if (secretWord[index] == letter) {
-          color = Colors.green;
-        }
-      }
-
+    Widget _wordBox(String letter, Color color) {
       return Container(
         height: 60.0,
         width: 50.0,
         margin: const EdgeInsets.all(3.0),
-        padding: const EdgeInsets.all(3.0),
         decoration:
-            BoxDecoration(border: Border.all(color: borderColor), color: color),
+            BoxDecoration(border: Border.all(color: color), color: color),
         child: Center(
           child: Text(
             letter.toUpperCase(),
             style: TextStyle(
-              fontSize: 50.0,
+              fontSize: 47.0,
             ),
           ),
         ),
@@ -61,142 +51,71 @@ class HowToPlay extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Padding(padding: EdgeInsets.only(top: 30.0)),
           Text(
-            'Como jogar:',
-            style: TextStyle(
-                color: Colors.black87,
-                fontSize: 25.0,
-                fontWeight: FontWeight.bold),
+            'Você tem 6 tentativas para descobrir a palavra secreta.',
+            style: TextStyle(color: Colors.black87, fontSize: 17.0),
+          ),
+          Text(
+            'A cada nova tentativa, a palavra anterior dará dicas de quão próximo está de descobrir:',
+            style: TextStyle(color: Colors.black87, fontSize: 17.0),
           ),
           Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              'Você tem 6 tentativas para descobrir a palavra secreta. A cada tentativa, a palavra anterior exibirá dica de quão próximo está de descobrir:',
-              style: TextStyle(color: Colors.black87, fontSize: 20.0),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _wordBox(0, 'FEIOS', 'FREIO'),
-                _wordBox(1, 'FEIOS', 'FREIO'),
-                _wordBox(2, 'FEIOS', 'FREIO'),
-                _wordBox(3, 'FEIOS', 'FREIO'),
-                _wordBox(4, 'FEIOS', 'FREIO'),
+                _wordBox('F', Colors.green),
+                _wordBox('E', Colors.blue),
+                _wordBox('I', Colors.blue),
+                _wordBox('O', Colors.blue),
+                _wordBox('S', Colors.red),
               ],
             ),
           ),
+          RichText(
+            text: TextSpan(children: <TextSpan>[
+              _normalWord("No exemplo acima, a cor "),
+              _emphasisWord("vermelha", Colors.red),
+              _normalWord(" indica que a palavra secreta "),
+              _normalWord("não", bold: true),
+              _normalWord(" contém a letra "),
+              _emphasisWord("S", Colors.red),
+              _normalWord("."),
+            ]),
+          ),
           Padding(
-            padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: RichText(
               text: TextSpan(children: <TextSpan>[
-                TextSpan(
-                    text: "No exemplo acima, a cor ",
-                    style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-                TextSpan(
-                    text: "vermelha",
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0)),
-                TextSpan(
-                    text: " indica que a palavra secreta não contém a letra ",
-                    style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-                TextSpan(
-                    text: "S",
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0)),
-                TextSpan(
-                    text: ".",
-                    style: TextStyle(color: Colors.black87, fontSize: 20.0)),
+                _normalWord("A cor "),
+                _emphasisWord("azul", Colors.blue),
+                _normalWord(" indica que as letras "),
+                _emphasisWord("E", Colors.blue),
+                _normalWord(", "),
+                _emphasisWord("I", Colors.blue),
+                _normalWord(" e "),
+                _emphasisWord("O", Colors.blue),
+                _normalWord(
+                  ", pertencem a palavra secreta, mas não estão na posição correta.",
+                ),
               ]),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 10.0),
-            child: RichText(
-              text: TextSpan(children: <TextSpan>[
-                TextSpan(
-                    text: "A cor ",
-                    style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-                TextSpan(
-                    text: "azul",
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0)),
-                TextSpan(
-                    text: " indica que as letras ",
-                    style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-                TextSpan(
-                    text: "E",
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0)),
-                TextSpan(
-                    text: ", ",
-                    style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-                TextSpan(
-                    text: "I",
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0)),
-                TextSpan(
-                    text: " e ",
-                    style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-                TextSpan(
-                    text: "O",
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0)),
-                TextSpan(
-                    text:
-                        ", pertencem a palavra secreta, mas não estão na posição correta.",
-                    style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-              ]),
-            ),
+          RichText(
+            text: TextSpan(children: <TextSpan>[
+              _normalWord("Já a cor "),
+              _emphasisWord("verde", Colors.green),
+              _normalWord(" mostra que a letra "),
+              _emphasisWord("F", Colors.green),
+              _normalWord(" está na posição correta."),
+            ]),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 10.0),
-            child: RichText(
-              text: TextSpan(children: <TextSpan>[
-                TextSpan(
-                    text: "Já a cor ",
-                    style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-                TextSpan(
-                    text: "verde",
-                    style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0)),
-                TextSpan(
-                    text: " mostra que a letra ",
-                    style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-                TextSpan(
-                    text: "F",
-                    style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0)),
-                TextSpan(
-                    text: " está na posição correta.",
-                    style: TextStyle(color: Colors.black87, fontSize: 20.0)),
-              ]),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 20.0),
             child: Text(
               'Para validar a palavra clique:',
               style: TextStyle(
-                  fontSize: 25.0,
+                  fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.red),
             ),
@@ -207,12 +126,27 @@ class HowToPlay extends StatelessWidget {
     );
   }
 
+  TextSpan _normalWord(String text, {bool bold = false}) {
+    return TextSpan(
+        text: text,
+        style: TextStyle(
+            color: Colors.black87,
+            fontSize: 17.0,
+            fontWeight: bold ? FontWeight.bold : FontWeight.normal));
+  }
+
+  TextSpan _emphasisWord(String text, Color color) {
+    return TextSpan(
+        text: text,
+        style: TextStyle(
+            color: color, fontWeight: FontWeight.bold, fontSize: 20.0));
+  }
+
   Widget _createEnter() {
     return Container(
       height: 45.0,
       width: 80,
-      margin: const EdgeInsets.fromLTRB(8.0, 2.0, 2.0, 2.0),
-      padding: const EdgeInsets.all(1.0),
+      margin: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 2.0),
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black), color: Colors.blueGrey[600]),
       child: Center(
