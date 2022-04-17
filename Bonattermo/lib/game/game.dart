@@ -192,70 +192,50 @@ class _GameState extends State<Game> {
       letterNonExists.contains(letter),
     );
 
-    return GestureDetector(
-      onTap: () => _typeLetter(letter),
-      child: Container(
-        height: keyStyle.height,
-        width: screenWidth / 12,
-        margin: const EdgeInsets.all(2.0),
-        decoration: BoxDecoration(
-            border: Border.all(color: (keyStyle.borderColor)!),
-            color: keyStyle.color),
-        child: Center(
-          child: Text(
-            letter.toUpperCase(),
-            style: TextStyle(
-              fontSize: 20.0,
-              color: Colors.white,
-            ),
-          ),
-        ),
+    var display = Text(
+      letter.toUpperCase(),
+      style: TextStyle(
+        fontSize: keyStyle.fontSize,
+        color: keyStyle.textColor,
       ),
+    );
+    return helper.createKey(
+      display,
+      keyStyle,
+      () => _typeLetter(letter),
+      screenWidth / 12,
+      const EdgeInsets.all(2.0),
     );
   }
 
   Widget _createBackspaceKey() {
     KeyStyle keyStyle = KeyStyle();
-    return GestureDetector(
-      onTap: () => _backspace(),
-      child: Container(
-        height: keyStyle.height,
-        width: screenWidth / 12,
-        margin: const EdgeInsets.all(2.0),
-        decoration: BoxDecoration(
-            border: Border.all(color: (keyStyle.borderColor)!),
-            color: keyStyle.color),
-        child: Center(
-          child: Icon(
-            Icons.backspace_outlined,
-            color: Colors.white,
-          ),
-        ),
+    return helper.createKey(
+      Icon(
+        Icons.backspace_outlined,
+        color: keyStyle.textColor,
       ),
+      keyStyle,
+      () => _backspace(),
+      screenWidth / 12,
+      const EdgeInsets.all(2.0),
     );
   }
 
   Widget _createEnterKey() {
     KeyStyle keyStyle = KeyStyle();
-    return GestureDetector(
-      onTap: () => _enter(),
-      child: Container(
-        height: keyStyle.height,
-        width: (screenWidth / 12) * 2.5,
-        margin: const EdgeInsets.fromLTRB(8.0, 2.0, 2.0, 2.0),
-        decoration: BoxDecoration(
-            border: Border.all(color: (keyStyle.borderColor)!),
-            color: keyStyle.color),
-        child: Center(
-          child: Text(
-            'ENTER',
-            style: TextStyle(
-              fontSize: 20.0,
-              color: Colors.white,
-            ),
-          ),
+    return helper.createKey(
+      Text(
+        'ENTER',
+        style: TextStyle(
+          fontSize: keyStyle.fontSize,
+          color: keyStyle.textColor,
         ),
       ),
+      keyStyle,
+      () => _enter(),
+      (screenWidth / 12) * 2.5,
+      const EdgeInsets.fromLTRB(8.0, 2.0, 2.0, 2.0),
     );
   }
 

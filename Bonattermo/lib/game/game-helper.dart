@@ -111,6 +111,29 @@ class GameHelper {
     }
     return KeyStyle(color: color, borderColor: borderColor);
   }
+
+  Widget createKey(
+    Widget display,
+    KeyStyle keyStyle,
+    VoidCallback onTap,
+    double width,
+    EdgeInsets margin,
+  ) {
+    return GestureDetector(
+      onTap: () => onTap(),
+      child: Container(
+        height: keyStyle.height,
+        width: width,
+        margin: margin,
+        decoration: BoxDecoration(
+            border: Border.all(color: (keyStyle.borderColor)!),
+            color: keyStyle.color),
+        child: Center(
+          child: display,
+        ),
+      ),
+    );
+  }
 }
 
 class WordStyle {
@@ -125,6 +148,8 @@ class KeyStyle {
   late Color? color;
   late Color? borderColor;
   final double height = 45.0;
+  final double fontSize = 20.0;
+  final Color textColor = Colors.white;
 
   KeyStyle({
     this.color = const Color(0xFF546E7A),
