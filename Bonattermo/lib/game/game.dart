@@ -1,41 +1,32 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import '../action-button.dart';
 import '../howToPlay.dart';
 import '../lose-game-dialog.dart';
 import '../won-game-dialog.dart';
+import 'game-helper.dart';
 
 class Game extends StatefulWidget {
   const Game(this.word, this.words, this.totalOfTrys) : super();
   final String word;
   final List<String> words;
   final totalOfTrys;
+
   @override
   State<Game> createState() => _GameState();
 }
 
 class _GameState extends State<Game> {
+  late GameHelper helper;
   bool gameFinished = false;
 
   int actualTry = 1;
   int cursorPosition = 0;
+
   List<String> wordsTryed = [];
   List<String> letterExists = [];
   List<String> letterNonExists = [];
-  double screenWidth = 0.0;
 
-  void _showToast(String message) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        duration: Duration(milliseconds: 600),
-        content: Text(message),
-      ),
-    );
-  }
+  double screenWidth = 0.0;
 
   void _typeLetter(String letter) {
     if (gameFinished) return;
@@ -82,18 +73,18 @@ class _GameState extends State<Game> {
     if (gameFinished) return;
     String word = wordsTryed[actualTry - 1];
     if (word.contains(' ')) {
-      _showToast('só palavras com 5 letras');
+      helper.showToast('só palavras com 5 letras');
       return;
     }
     if (!widget.words.contains(word.toLowerCase())) {
-      _showToast('essa palavra não existe');
+      helper.showToast('essa palavra não existe');
       return;
     }
 
     setState(() {
       if (word == widget.word) {
         gameFinished = true;
-        writeInHistory(true);
+        helper.writeInHistory(true, actualTry);
         showDialog(
             context: context,
             builder: (_) => WonGameDialogBox(word, actualTry));
@@ -108,7 +99,7 @@ class _GameState extends State<Game> {
 
       if (actualTry > widget.totalOfTrys) {
         gameFinished = true;
-        writeInHistory(false);
+        helper.writeInHistory(false, widget.totalOfTrys);
         showDialog(
           context: context,
           builder: (_) => LoseGameDialogBox(widget.word),
@@ -118,6 +109,7 @@ class _GameState extends State<Game> {
   }
 
   void _backspace() {
+    if (gameFinished) return;
     String word = wordsTryed[actualTry - 1];
     setState(() {
       if (word.characters.elementAt(cursorPosition) == ' ' &&
@@ -333,25 +325,7 @@ class _GameState extends State<Game> {
     for (var i = 0; i < widget.totalOfTrys; i++) {
       wordsTryed.add('     ');
     }
-  }
-
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-
-    return directory.path;
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/game-history.txt');
-  }
-
-  Future<File> writeInHistory(bool won) async {
-    final file = await _localFile;
-    String line =
-        '${widget.word},${won.toString()},${won ? actualTry.toString() : widget.totalOfTrys}\n';
-
-    return file.writeAsString(line, mode: FileMode.append);
+    helper = GameHelper(context, widget.word, widget.words, widget.totalOfTrys);
   }
 
   @override

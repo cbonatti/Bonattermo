@@ -24,4 +24,9 @@ class HistoryFile {
     final file = await getFile();
     file.delete();
   }
+
+  static Future<File> appendToFile(String text) async {
+    final file = await getFile();
+    return file.writeAsString(text, mode: FileMode.append);
+  }
 }
