@@ -1,3 +1,4 @@
+import 'package:bonattermo/main.dart';
 import 'package:flutter/material.dart';
 
 class WonGameDialogBox extends StatelessWidget {
@@ -46,6 +47,11 @@ class WonGameDialogBox extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
             Navigator.of(context).pop();
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyApp()),
+            );
           },
         )
       ],

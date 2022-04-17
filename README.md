@@ -7,10 +7,10 @@ A word game made in Flutter. It is based in [this game](https://term.ooo/) and u
 It is composed by 2 projects: a helper and an app.
 
 ### BonaTTermoHelper
-Is a C# console which hits a endpoint to get words, apply a rule to get the best words and generate a text file. This generate text file will be used by the flutter project **BonaTTermo** app.
+Is a C# console which hits an endpoint to get words, then applys a rule to get the best words and generate a text file. This generated text file will be used by the flutter project **BonaTTermo** app.
 - The endpoint return a list of words like this *abate,188868,1,0.9881,0.0019,abcdfhijklmoqrst*
 - Only words with length 5 are selected
-- After the number between the first and second comma is converted to int
+- After that, the number between the first and second comma is converted to int
 - And a weigth is applyed to this (filtering only with rate 100.000 or more)
 
 ### BonaTTermo

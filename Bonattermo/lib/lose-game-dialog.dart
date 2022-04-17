@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'main.dart';
+
 class LoseGameDialogBox extends StatelessWidget {
   const LoseGameDialogBox(this.word) : super();
   final String word;
@@ -34,6 +36,11 @@ class LoseGameDialogBox extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
             Navigator.of(context).pop();
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyApp()),
+            );
           },
         )
       ],

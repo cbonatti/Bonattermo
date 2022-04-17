@@ -86,14 +86,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void _clearHistory() async {
     final file = await _localFile;
     file.delete();
+    setState(() {});
   }
 
   Future<String> _loadHistory() async {
     var history = await _loadHistoryFile();
-    return Future<String>.delayed(
-      const Duration(milliseconds: 500),
-      () => history,
-    );
+    return history;
   }
 
   @override
