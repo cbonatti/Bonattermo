@@ -76,7 +76,7 @@ class GameHelper {
     int actualTry,
   ) {
     Color color = Colors.white;
-    Color borderColor = Colors.blueAccent;
+    Color borderColor = Colors.grey;
     double borderWidth = 1.0;
 
     if (letter != ' ') {
@@ -98,6 +98,19 @@ class GameHelper {
 
     return WordStyle(color, borderColor, borderWidth);
   }
+
+  KeyStyle getKeyStyle(bool exists, bool nonExists) {
+    var color = Colors.blueGrey[600];
+    var borderColor = Colors.black;
+    if (nonExists) {
+      color = Colors.grey[200];
+      borderColor = Colors.grey;
+    }
+    if (exists) {
+      color = Colors.blue;
+    }
+    return KeyStyle(color, borderColor);
+  }
 }
 
 class WordStyle {
@@ -106,4 +119,11 @@ class WordStyle {
   late double borderWidth;
 
   WordStyle(this.color, this.borderColor, this.borderWidth);
+}
+
+class KeyStyle {
+  late Color? color;
+  late Color borderColor;
+
+  KeyStyle(this.color, this.borderColor);
 }

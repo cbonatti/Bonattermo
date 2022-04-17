@@ -187,15 +187,10 @@ class _GameState extends State<Game> {
   }
 
   Widget _createKey(String letter) {
-    var color = Colors.blueGrey[600];
-    var borderColor = Colors.black;
-    if (letterNonExists.contains(letter)) {
-      color = Colors.grey[200];
-      borderColor = Colors.grey;
-    }
-    if (letterExists.contains(letter)) {
-      color = Colors.blue;
-    }
+    KeyStyle keyStyle = helper.getKeyStyle(
+      letterExists.contains(letter),
+      letterNonExists.contains(letter),
+    );
 
     return GestureDetector(
       onTap: () => _typeLetter(letter),
@@ -203,9 +198,9 @@ class _GameState extends State<Game> {
         height: 45.0,
         width: screenWidth / 12,
         margin: const EdgeInsets.all(2.0),
-        padding: const EdgeInsets.all(1.0),
-        decoration:
-            BoxDecoration(border: Border.all(color: borderColor), color: color),
+        decoration: BoxDecoration(
+            border: Border.all(color: keyStyle.borderColor),
+            color: keyStyle.color),
         child: Center(
           child: Text(
             letter.toUpperCase(),
