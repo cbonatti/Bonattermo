@@ -33,7 +33,7 @@ class _GameState extends State<Game> {
     setState(() {
       replaceActualWord(cursorPosition, letter);
       if (cursorPosition < (widget.word.length - 1)) {
-        cursorPosition++;
+        _changeCursor(cursorPosition + 1);
         _checkActualWord();
       }
     });
@@ -77,7 +77,7 @@ class _GameState extends State<Game> {
     String nextWord = wordsTryed[actualTry];
     for (var i = 0; i < nextWord.length; i++) {
       if (nextWord.characters.elementAt(i) != ' ') {
-        cursorPosition = i + 1;
+        _changeCursor(i + 1);
       } else {
         return;
       }
@@ -88,7 +88,7 @@ class _GameState extends State<Game> {
     String word = wordsTryed[actualTry - 1];
     for (var i = cursorPosition; i < word.length; i++) {
       if (word.characters.elementAt(i) != ' ') {
-        cursorPosition = i + 1;
+        _changeCursor(i + 1);
       } else {
         return;
       }
@@ -108,7 +108,7 @@ class _GameState extends State<Game> {
       }
 
       // must be before next checks, because it will be repositioned, like if the first letter exists, move to second
-      cursorPosition = 0;
+      _changeCursor(0);
 
       _checkWhetherTypedLettersAreInSercretWord();
       _nextWord();
@@ -127,8 +127,9 @@ class _GameState extends State<Game> {
 
     String word = wordsTryed[actualTry - 1];
     setState(() {
+      // checking in the actual word beacause if the cursor is in the last letter it was skipping it and erasing all the rest
       if (word.characters.elementAt(cursorPosition) == ' ' &&
-          cursorPosition > 0) cursorPosition--;
+          cursorPosition > 0) _changeCursor(cursorPosition - 1);
       replaceActualWord(cursorPosition, ' ');
     });
   }
