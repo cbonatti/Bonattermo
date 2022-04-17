@@ -195,11 +195,11 @@ class _GameState extends State<Game> {
     return GestureDetector(
       onTap: () => _typeLetter(letter),
       child: Container(
-        height: 45.0,
+        height: keyStyle.height,
         width: screenWidth / 12,
         margin: const EdgeInsets.all(2.0),
         decoration: BoxDecoration(
-            border: Border.all(color: keyStyle.borderColor),
+            border: Border.all(color: (keyStyle.borderColor)!),
             color: keyStyle.color),
         child: Center(
           child: Text(
@@ -215,16 +215,16 @@ class _GameState extends State<Game> {
   }
 
   Widget _createBackspaceKey() {
-    var color = Colors.blueGrey[600];
+    KeyStyle keyStyle = KeyStyle();
     return GestureDetector(
       onTap: () => _backspace(),
       child: Container(
-        height: 45.0,
+        height: keyStyle.height,
         width: screenWidth / 12,
         margin: const EdgeInsets.all(2.0),
-        padding: const EdgeInsets.all(1.0),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.black), color: color),
+            border: Border.all(color: (keyStyle.borderColor)!),
+            color: keyStyle.color),
         child: Center(
           child: Icon(
             Icons.backspace_outlined,
@@ -236,16 +236,16 @@ class _GameState extends State<Game> {
   }
 
   Widget _createEnterKey() {
+    KeyStyle keyStyle = KeyStyle();
     return GestureDetector(
       onTap: () => _enter(),
       child: Container(
-        height: 45.0,
+        height: keyStyle.height,
         width: (screenWidth / 12) * 2.5,
         margin: const EdgeInsets.fromLTRB(8.0, 2.0, 2.0, 2.0),
-        padding: const EdgeInsets.all(1.0),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
-            color: Colors.blueGrey[600]),
+            border: Border.all(color: (keyStyle.borderColor)!),
+            color: keyStyle.color),
         child: Center(
           child: Text(
             'ENTER',

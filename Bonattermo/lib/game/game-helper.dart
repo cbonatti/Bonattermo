@@ -109,7 +109,7 @@ class GameHelper {
     if (exists) {
       color = Colors.blue;
     }
-    return KeyStyle(color, borderColor);
+    return KeyStyle(color: color, borderColor: borderColor);
   }
 }
 
@@ -123,7 +123,11 @@ class WordStyle {
 
 class KeyStyle {
   late Color? color;
-  late Color borderColor;
+  late Color? borderColor;
+  final double height = 45.0;
 
-  KeyStyle(this.color, this.borderColor);
+  KeyStyle({
+    this.color = const Color(0xFF546E7A),
+    this.borderColor = Colors.black,
+  });
 }
