@@ -1,14 +1,8 @@
-import 'dart:io';
-
-import 'package:bonattermo/game.dart';
 import 'package:bonattermo/howToPlay.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:math';
-
-import 'package:path_provider/path_provider.dart';
 
 import 'clear-history-dialog.dart';
+import 'game/new-game.dart';
 import 'history/history.dart';
 import 'history/history-file.dart';
 
@@ -25,55 +19,24 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'BonaTTermo'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<String> _loadAsset() async {
-    return await rootBundle.loadString('assets/words.txt');
-  }
-
-  final _random = new Random();
-  int next(int min, int max) => min + _random.nextInt(max - min);
-
-  void _newGame() async {
-    var allWords = await _loadAsset();
-    List<String> words = [];
-    for (var item in allWords.split('\n')) {
-      words.add(item.substring(0, 5));
-    }
-
-    var index = next(0, words.length);
-    var word = words[index];
-    print(word);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => Game(word.toUpperCase(), words, 6)),
-    );
-  }
-
-  void _clearHistory() async {
-    await HistoryFile.deleteFile();
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('BonaTTermo'),
         actions: [
           Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -97,8 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return ConfirmClearHistoryDialogBox(
-                            () => _clearHistory());
+                        return ConfirmClearHistoryDialogBox(() async => {
+                              await HistoryFile.deleteFile(),
+                              setState(() {}),
+                            });
                       });
                 },
                 child: Icon(
@@ -110,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: History(),
       floatingActionButton: FloatingActionButton(
-        onPressed: _newGame,
+        onPressed: () => NewGame().newGame(context),
         tooltip: 'Novo Jogo',
         child: Icon(Icons.play_arrow),
       ), // This trailing comma makes auto-formatting nicer for build methods.
