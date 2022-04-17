@@ -94,6 +94,25 @@ class _MyHomePageState extends State<MyHomePage> {
     return history;
   }
 
+  Widget _buildListItem(List<String> entries, int index) {
+    var result = entries[index].split(',');
+    var color = Colors.white;
+    var msg = '';
+
+    if (result[1] == true.toString()) {
+      color = Colors.green;
+      msg = 'Acertou a palavra ${result[0]} em ${result[2]} tentativas';
+    } else if (result[1] == false.toString()) {
+      color = Colors.red;
+      msg = 'Errou a palavra ${result[0]} em ${result[2]} tentativas';
+    }
+    return Container(
+      height: 50,
+      color: color,
+      child: Center(child: Text(msg)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,30 +160,19 @@ class _MyHomePageState extends State<MyHomePage> {
               return Container();
             }
             var entries = snapshot.data.toString().split('\n');
-            print(entries);
             return Container(
-              child: ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: entries.length - 1,
-                  itemBuilder: (BuildContext context, int index) {
-                    var result = entries[index].split(',');
-                    var color = Colors.white;
-                    var msg = 'Jogo não finalizado, a palavra era ${result[0]}';
-                    if (result[1] == true.toString()) {
-                      color = Colors.green;
-                      msg =
-                          'Acertou a palavra ${result[0]} em ${result[2]} tentativas';
-                    } else if (result[1] == false.toString()) {
-                      color = Colors.red;
-                      msg =
-                          'Errou a palavra ${result[0]} em ${result[2]} tentativas';
-                    }
-                    return Container(
-                      height: 50,
-                      color: color,
-                      child: Center(child: Text(msg)),
-                    );
-                  }),
+              child: ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemCount: entries.length - 1,
+                itemBuilder: (BuildContext context, int index) {
+                  return _buildListItem(entries, index);
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(
+                      height: 6.0,
+                  thickness: 1.0,
+                ),
+              ),
             );
           } else if (snapshot.hasError) {
             return Center(

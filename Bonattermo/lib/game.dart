@@ -249,7 +249,6 @@ class _GameState extends State<Game> {
   }
 
   Widget _createEnterKey() {
-    var color = Colors.blueGrey[600];
     return GestureDetector(
       onTap: () => _enter(),
       child: Container(
@@ -258,7 +257,8 @@ class _GameState extends State<Game> {
         margin: const EdgeInsets.fromLTRB(8.0, 2.0, 2.0, 2.0),
         padding: const EdgeInsets.all(1.0),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.black), color: color),
+            border: Border.all(color: Colors.black),
+            color: Colors.blueGrey[600]),
         child: Center(
           child: Text(
             'ENTER',

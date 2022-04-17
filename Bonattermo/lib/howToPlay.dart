@@ -191,7 +191,38 @@ class HowToPlay extends StatelessWidget {
               ]),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Para validar a palavra clique:',
+              style: TextStyle(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red),
+            ),
+          ),
+          _createEnter(),
         ],
+      ),
+    );
+  }
+
+  Widget _createEnter() {
+    return Container(
+      height: 45.0,
+      width: 80,
+      margin: const EdgeInsets.fromLTRB(8.0, 2.0, 2.0, 2.0),
+      padding: const EdgeInsets.all(1.0),
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.black), color: Colors.blueGrey[600]),
+      child: Center(
+        child: Text(
+          'ENTER',
+          style: TextStyle(
+            fontSize: 20.0,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }
