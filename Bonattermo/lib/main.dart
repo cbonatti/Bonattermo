@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:bonattermo/game.dart';
 import 'package:bonattermo/howToPlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:math';
+
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,15 +36,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<String> _loadAsset(String path) async {
-    return await rootBundle.loadString('assets/' + path);
+  Future<String> _loadAsset() async {
+    return await rootBundle.loadString('assets/words.txt');
+  }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/game-history.txt');
+  }
+
+  Future<String> _loadHistoryFile() async {
+    final file = await _localFile;
+    final contents = await file.readAsString();
+    return contents;
   }
 
   final _random = new Random();
   int next(int min, int max) => min + _random.nextInt(max - min);
 
   void _newGame() async {
-    var allWords = await _loadAsset('words.txt');
+    var allWords = await _loadAsset();
     List<String> words = [];
     for (var item in allWords.split('\n')) {
       words.add(item.substring(0, 5));
@@ -57,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<String> _loadHistory() async {
-    var history = await _loadAsset('game-history.txt');
+    var history = await _loadHistoryFile();
     //return history;
     return Future<String>.delayed(
       const Duration(seconds: 2),
@@ -92,8 +113,30 @@ class _MyHomePageState extends State<MyHomePage> {
         future: _loadHistory(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            var entries = snapshot.data.toString().split('\n');
             return Container(
-              child: Text(snapshot.data.toString()),
+              child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: entries.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var result = entries[index].split(',');
+                    var color = Colors.white;
+                    var msg = 'Jogo não finalizado, a palavra era ${result[0]}';
+                    if (result[1] == true.toString()) {
+                      color = Colors.green;
+                      msg =
+                          'Acertou a palavra ${result[0]} em ${result[2]}tentativas';
+                    } else if (result[1] == false.toString()) {
+                      color = Colors.red;
+                      msg =
+                          'Errou a palavra ${result[0]} em ${result[2]}tentativas';
+                    }
+                    return Container(
+                      height: 50,
+                      color: color,
+                      child: Center(child: Text(msg)),
+                    );
+                  }),
             );
           } else if (snapshot.hasError) {
             return Center(

@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'howToPlay.dart';
 import 'lose-game-dialog.dart';
 import 'won-game-dialog.dart';
@@ -91,6 +94,8 @@ class _GameState extends State<Game> {
     setState(() {
       if (word == widget.word) {
         gameFinished = true;
+        writeInHistory(true);
+        _loadHistoryFile();
         showDialog(
             context: context,
             builder: (_) => WonGameDialogBox(word, actualTry));
@@ -105,6 +110,7 @@ class _GameState extends State<Game> {
 
       if (actualTry > widget.totalOfTrys) {
         gameFinished = true;
+        writeInHistory(false);
         showDialog(
           context: context,
           builder: (_) => LoseGameDialogBox(widget.word),
@@ -329,6 +335,30 @@ class _GameState extends State<Game> {
     for (var i = 0; i < widget.totalOfTrys; i++) {
       wordsTryed.add('     ');
     }
+  }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/game-history.txt');
+  }
+
+  Future<File> writeInHistory(bool won) async {
+    final file = await _localFile;
+    String line = '${widget.word},${won.toString()},${actualTry.toString()}\n';
+
+    return file.writeAsString(line, mode: FileMode.append);
+  }
+
+  void _loadHistoryFile() async {
+    final file = await _localFile;
+    final contents = await file.readAsString();
+    print(contents);
   }
 
   @override
