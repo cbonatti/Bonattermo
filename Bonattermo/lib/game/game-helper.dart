@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:bonattermo/history/history-file.dart';
 import 'package:flutter/material.dart';
 
+import '../lose-game-dialog.dart';
+import '../won-game-dialog.dart';
+
 class GameHelper {
   late String word;
   late List<String> words;
@@ -19,6 +22,40 @@ class GameHelper {
         content: Text(message),
       ),
     );
+  }
+
+  bool validateWord(String typpedWord) {
+    if (typpedWord.contains(' ')) {
+      showToast('só palavras com 5 letras');
+      return false;
+    }
+    if (!words.contains(typpedWord.toLowerCase())) {
+      showToast('essa palavra não existe');
+      return false;
+    }
+    return true;
+  }
+
+  bool checkWonGame(String typpedWord, actualTry, wordsTryed) {
+    if (typpedWord == word) {
+      writeInHistory(true, actualTry, wordsTryed);
+      showDialog(
+          context: context, builder: (_) => WonGameDialogBox(word, actualTry));
+      return true;
+    }
+    return false;
+  }
+
+  bool checkLostGame(actualTry, wordsTryed) {
+    if (actualTry > totalOfTrys) {
+      writeInHistory(false, totalOfTrys, wordsTryed);
+      showDialog(
+        context: context,
+        builder: (_) => LoseGameDialogBox(word),
+      );
+      return true;
+    }
+    return false;
   }
 
   Future<File> writeInHistory(

@@ -45,7 +45,7 @@ class _GameState extends State<Game> {
     wordsTryed[actualTry - 1] = word;
   }
 
-  void _checkLetters() {
+  void _checkWhetherTypedLettersAreInSercretWord() {
     String word = wordsTryed[actualTry - 1];
     for (var i = 0; i < word.length; i++) {
       String letter = word.characters.elementAt(i);
@@ -97,47 +97,34 @@ class _GameState extends State<Game> {
 
   void _enter() {
     if (gameFinished) return;
+
     String word = wordsTryed[actualTry - 1];
-    if (word.contains(' ')) {
-      helper.showToast('só palavras com 5 letras');
-      return;
-    }
-    if (!widget.words.contains(word.toLowerCase())) {
-      helper.showToast('essa palavra não existe');
-      return;
-    }
+    if (!helper.validateWord(word)) return;
 
     setState(() {
-      if (word == widget.word) {
+      if (helper.checkWonGame(word, actualTry, wordsTryed)) {
         gameFinished = true;
-        helper.writeInHistory(true, actualTry, wordsTryed);
-        showDialog(
-            context: context,
-            builder: (_) => WonGameDialogBox(word, actualTry));
         return;
       }
 
       // must be before next checks, because it will be repositioned, like if the first letter exists, move to second
       cursorPosition = 0;
 
-      _checkLetters();
+      _checkWhetherTypedLettersAreInSercretWord();
       _nextWord();
 
       actualTry++;
 
-      if (actualTry > widget.totalOfTrys) {
+      if (helper.checkLostGame(actualTry, wordsTryed)) {
         gameFinished = true;
-        helper.writeInHistory(false, widget.totalOfTrys, wordsTryed);
-        showDialog(
-          context: context,
-          builder: (_) => LoseGameDialogBox(widget.word),
-        );
+        return;
       }
     });
   }
 
   void _backspace() {
     if (gameFinished) return;
+
     String word = wordsTryed[actualTry - 1];
     setState(() {
       if (word.characters.elementAt(cursorPosition) == ' ' &&
