@@ -1,3 +1,4 @@
+import 'package:bonattermo/howToPlay.dart';
 import 'package:flutter/material.dart';
 
 class SnapshotData extends StatelessWidget {
@@ -7,7 +8,8 @@ class SnapshotData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (data == '') {
-      return Container();
+      // it is the first time loading the game, so show how to play
+      return HowToPlayDialogBox();
     }
     var entries = data.toString().split('\n');
     return Container(
