@@ -95,7 +95,6 @@ class _GameState extends State<Game> {
       if (word == widget.word) {
         gameFinished = true;
         writeInHistory(true);
-        _loadHistoryFile();
         showDialog(
             context: context,
             builder: (_) => WonGameDialogBox(word, actualTry));
@@ -353,12 +352,6 @@ class _GameState extends State<Game> {
     String line = '${widget.word},${won.toString()},${actualTry.toString()}\n';
 
     return file.writeAsString(line, mode: FileMode.append);
-  }
-
-  void _loadHistoryFile() async {
-    final file = await _localFile;
-    final contents = await file.readAsString();
-    print(contents);
   }
 
   @override
