@@ -26,6 +26,8 @@ class SnapshotData extends StatelessWidget {
     String word = result[0];
     bool won = result[1] == true.toString();
     String trys = result[2];
+    String wordsTryed = result[3].replaceAll(';', ', ');
+    wordsTryed = wordsTryed.substring(0, wordsTryed.length - 2);
 
     if (won)
       return Card(
@@ -35,6 +37,10 @@ class SnapshotData extends StatelessWidget {
             color: Colors.green,
           ),
           title: Text(word),
+          subtitle: Text(
+            wordsTryed,
+            style: TextStyle(fontSize: 10.0),
+          ),
           trailing: Text('$trys tentativas'),
         ),
       );
@@ -46,6 +52,10 @@ class SnapshotData extends StatelessWidget {
           color: Colors.red,
         ),
         title: Text(word),
+        subtitle: Text(
+          wordsTryed,
+          style: TextStyle(fontSize: 10.0),
+        ),
         trailing: Text('$trys tentativas'),
       ),
     );

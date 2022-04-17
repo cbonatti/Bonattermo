@@ -84,7 +84,7 @@ class _GameState extends State<Game> {
     setState(() {
       if (word == widget.word) {
         gameFinished = true;
-        helper.writeInHistory(true, actualTry);
+        helper.writeInHistory(true, actualTry, wordsTryed);
         showDialog(
             context: context,
             builder: (_) => WonGameDialogBox(word, actualTry));
@@ -99,7 +99,7 @@ class _GameState extends State<Game> {
 
       if (actualTry > widget.totalOfTrys) {
         gameFinished = true;
-        helper.writeInHistory(false, widget.totalOfTrys);
+        helper.writeInHistory(false, widget.totalOfTrys, wordsTryed);
         showDialog(
           context: context,
           builder: (_) => LoseGameDialogBox(widget.word),

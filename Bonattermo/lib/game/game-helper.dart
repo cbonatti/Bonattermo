@@ -21,8 +21,13 @@ class GameHelper {
     );
   }
 
-  Future<File> writeInHistory(bool won, int actualTry) async {
-    String text = '$word,${won.toString()},${actualTry.toString()}\n';
+  Future<File> writeInHistory(
+      bool won, int actualTry, List<String> wordsTryed) async {
+    String words = '';
+    for (var item in wordsTryed) {
+      if (!item.contains(' ')) words += '$item;';
+    }
+    String text = '$word,${won.toString()},${actualTry.toString()},$words\n';
     return HistoryFile.appendToFile(text);
   }
 }
