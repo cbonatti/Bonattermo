@@ -13,12 +13,16 @@ class HowToPlayDialogBox extends StatelessWidget {
             color: Colors.black87, fontSize: 20.0, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[
-        FlatButton(
-          child: Text('Fechar'),
+        TextButton(
+          child: Text('Fechar',
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
+              )),
           onPressed: () {
             Navigator.of(context).pop();
           },
-        )
+        ),
       ],
     );
   }

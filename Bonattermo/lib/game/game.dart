@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../action-button.dart';
 import '../howToPlay.dart';
+import '../main.dart';
 import 'game-helper.dart';
 
 class Game extends StatefulWidget {
@@ -275,6 +276,17 @@ class _GameState extends State<Game> {
     return widgets;
   }
 
+  void _onBackPressed() {
+    if (actualTry > 1) {
+      helper.writeInHistory(false, actualTry, wordsTryed);
+    }
+    Navigator.of(context).pop();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MyApp()),
+    );
+  }
+
   void initState() {
     super.initState();
     for (var i = 0; i < widget.totalOfTrys; i++) {
@@ -289,6 +301,7 @@ class _GameState extends State<Game> {
     return Scaffold(
       appBar: AppBar(
         title: Text('BonaTTermo'),
+        leading: BackButton(onPressed: _onBackPressed),
         actions: [
           ActionButton.create(context, HowToPlayDialogBox(), Icons.info),
         ],
