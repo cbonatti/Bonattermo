@@ -278,7 +278,7 @@ class _GameState extends State<Game> {
 
   void _onBackPressed() {
     if (actualTry > 1) {
-      helper.writeInHistory(false, actualTry, wordsTryed);
+      helper.writeInHistory(false, actualTry - 1, wordsTryed);
     }
     Navigator.of(context).pop();
     Navigator.push(
