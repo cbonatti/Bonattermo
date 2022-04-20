@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'action-button.dart';
 import 'history/clear-history-dialog.dart';
 import 'game/new-game.dart';
 import 'history/history-file.dart';
 import 'history/history.dart';
 import 'howToPlay.dart';
+import 'theme/dark-theme-provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('BonaTTermo'),
@@ -30,6 +33,17 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             Icons.delete,
+          ),
+          Container(
+            height: 10,
+            width: 30,
+            child: SwitchListTile(
+              title: Text("Dark Mode"),
+              onChanged: (val) {
+                themeChange.darkTheme = val;
+              },
+              value: themeChange.darkTheme,
+            ),
           ),
         ],
       ),
