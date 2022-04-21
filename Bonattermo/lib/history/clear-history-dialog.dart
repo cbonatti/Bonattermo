@@ -8,28 +8,17 @@ class ConfirmClearHistoryDialogBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Limpar histórico",
-          style: TextStyle(
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0)),
+          style: Theme.of(context).textTheme.titleLarge),
       content: Text('Deseja mesmo limpar o histórico?'),
       actions: <Widget>[
         TextButton(
-          child: Text('Não',
-              style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.bold,
-              )),
+          child: Text('Não', style: Theme.of(context).textTheme.bodyText1),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
-          child: Text('Sim',
-              style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.bold,
-              )),
+          child: Text('Sim', style: Theme.of(context).textTheme.bodyText1),
           onPressed: () {
             onTap();
             Navigator.of(context).pop();
