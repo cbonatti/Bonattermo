@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'main.dart';
+import 'package:bonattermo/main.dart';
 
 class LoseGameDialogBox extends StatelessWidget {
   const LoseGameDialogBox(this.word) : super();

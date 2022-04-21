@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:bonattermo/history/history-file.dart';
 import 'package:flutter/material.dart';
 
-import '../lose-game-dialog.dart';
-import '../won-game-dialog.dart';
+import 'lose-game-dialog.dart';
+import 'won-game-dialog.dart';
 
 class GameHelper {
   late String word;
