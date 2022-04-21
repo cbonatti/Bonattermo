@@ -1,3 +1,4 @@
+import 'package:bonattermo/statistics/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'action-button.dart';
@@ -33,6 +34,21 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             Icons.delete,
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => StatisticsPage()),
+                );
+              },
+              child: Icon(
+                Icons.auto_graph,
+                size: 26.0,
+              ),
+            ),
           ),
           Container(
             height: 10,
