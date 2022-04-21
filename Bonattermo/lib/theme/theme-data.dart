@@ -24,6 +24,9 @@ class Styles {
       appBarTheme: AppBarTheme(
         elevation: 0.0,
       ),
+      textTheme: const TextTheme(
+        bodyMedium: TextStyle(fontSize: 17.0),
+      ),
     );
   }
 }

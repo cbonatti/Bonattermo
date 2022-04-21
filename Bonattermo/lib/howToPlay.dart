@@ -7,18 +7,10 @@ class HowToPlayDialogBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: HowToPlay(),
-      title: Text(
-        'Como jogar:',
-        style: TextStyle(
-            color: Colors.black87, fontSize: 20.0, fontWeight: FontWeight.bold),
-      ),
+      title: Text('Como jogar:', style: Theme.of(context).textTheme.titleLarge),
       actions: <Widget>[
         TextButton(
-          child: Text('Fechar',
-              style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.bold,
-              )),
+          child: Text('Fechar', style: Theme.of(context).textTheme.bodyText1),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -57,11 +49,11 @@ class HowToPlay extends StatelessWidget {
         children: <Widget>[
           Text(
             'Você tem 6 tentativas para descobrir a palavra secreta.',
-            style: TextStyle(color: Colors.black87, fontSize: 17.0),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           Text(
             'A cada nova tentativa, a palavra anterior dará dicas de quão próximo está de descobrir:',
-            style: TextStyle(color: Colors.black87, fontSize: 17.0),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -78,40 +70,41 @@ class HowToPlay extends StatelessWidget {
           ),
           RichText(
             text: TextSpan(children: <TextSpan>[
-              _normalWord("No exemplo acima, a cor "),
+              _normalWord("No exemplo acima, a cor ", context),
               _emphasisWord("vermelha", Colors.red),
-              _normalWord(" indica que a palavra secreta "),
-              _normalWord("não", bold: true),
-              _normalWord(" contém a letra "),
+              _normalWord(" indica que a palavra secreta ", context),
+              _normalWordBold("não", context),
+              _normalWord(" contém a letra ", context),
               _emphasisWord("S", Colors.red),
-              _normalWord("."),
+              _normalWord(".", context),
             ]),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: RichText(
               text: TextSpan(children: <TextSpan>[
-                _normalWord("A cor "),
+                _normalWord("A cor ", context),
                 _emphasisWord("azul", Colors.blue),
-                _normalWord(" indica que as letras "),
+                _normalWord(" indica que as letras ", context),
                 _emphasisWord("E", Colors.blue),
-                _normalWord(", "),
+                _normalWord(", ", context),
                 _emphasisWord("I", Colors.blue),
-                _normalWord(" e "),
+                _normalWord(" e ", context),
                 _emphasisWord("O", Colors.blue),
                 _normalWord(
                   ", pertencem a palavra secreta, mas não estão na posição correta.",
+                  context,
                 ),
               ]),
             ),
           ),
           RichText(
             text: TextSpan(children: <TextSpan>[
-              _normalWord("Já a cor "),
+              _normalWord("Já a cor ", context),
               _emphasisWord("verde", Colors.green),
-              _normalWord(" mostra que a letra "),
+              _normalWord(" mostra que a letra ", context),
               _emphasisWord("F", Colors.green),
-              _normalWord(" está na posição correta."),
+              _normalWord(" está na posição correta.", context),
             ]),
           ),
           Padding(
@@ -130,13 +123,18 @@ class HowToPlay extends StatelessWidget {
     );
   }
 
-  TextSpan _normalWord(String text, {bool bold = false}) {
+  TextSpan _normalWord(String text, BuildContext context) {
+    return TextSpan(text: text, style: Theme.of(context).textTheme.bodyMedium);
+  }
+
+  TextSpan _normalWordBold(String text, BuildContext context) {
     return TextSpan(
-        text: text,
-        style: TextStyle(
-            color: Colors.black87,
-            fontSize: 17.0,
-            fontWeight: bold ? FontWeight.bold : FontWeight.normal));
+      text: text,
+      style: Theme.of(context)
+          .textTheme
+          .bodyMedium
+          ?.copyWith(fontWeight: FontWeight.bold),
+    );
   }
 
   TextSpan _emphasisWord(String text, Color color) {
