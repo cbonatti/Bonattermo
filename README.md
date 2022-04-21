@@ -15,3 +15,5 @@ Is a C# console which hits an endpoint to get words, then applys a rule to get t
 
 ### BonaTTermo
 Is a Flutter app which loads words from a text file, selects a random one and let the user play with it trying to figure out what is the correct word and receiving tips for each word tryed.
+
+![](Bonattermo/assets/bonaTTermo.gif)

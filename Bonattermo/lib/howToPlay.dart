@@ -28,7 +28,7 @@ class HowToPlay extends StatelessWidget {
     Widget _wordBox(String letter, Color color) {
       return Container(
         height: 60.0,
-        width: 50.0,
+        width: MediaQuery.of(context).size.width / 10,
         margin: const EdgeInsets.all(3.0),
         decoration:
             BoxDecoration(border: Border.all(color: color), color: color),
