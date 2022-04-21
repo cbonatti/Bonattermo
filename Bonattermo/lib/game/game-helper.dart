@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:bonattermo/history/history-file.dart';
+import 'package:bonattermo/theme/dark-theme-provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'lose-game-dialog.dart';
 import 'won-game-dialog.dart';
@@ -69,13 +71,15 @@ class GameHelper {
   }
 
   WordStyle getWordStyle(
+    BuildContext context,
     String letter,
     int wordIndex,
     int cursorPosition,
     int gameIndex,
     int actualTry,
   ) {
-    Color color = Colors.white;
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+    Color color = themeChange.darkTheme ? Color(0xff3A3A3B) : Color(0xFFE0E0E0);
     Color borderColor = Colors.grey;
     double borderWidth = 1.0;
 
@@ -89,11 +93,13 @@ class GameHelper {
       }
     }
     if (cursorPosition == wordIndex && gameIndex == actualTry) {
-      borderColor = Colors.black;
+      borderColor = themeChange.darkTheme
+          ? Theme.of(context).buttonTheme.colorScheme?.secondary ?? Colors.grey
+          : Colors.black;
       borderWidth = 3.0;
     }
     if (gameIndex == actualTry) {
-      color = Colors.white;
+      color = themeChange.darkTheme ? Colors.black87 : Colors.white;
     }
 
     return WordStyle(color, borderColor, borderWidth);

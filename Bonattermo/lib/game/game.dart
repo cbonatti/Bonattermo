@@ -145,7 +145,7 @@ class _GameState extends State<Game> {
     String word = wordsTryed[gameIndex - 1];
     String letter = word[index].toUpperCase();
     var wordStyle = helper.getWordStyle(
-        letter, index, cursorPosition, gameIndex, actualTry);
+        context, letter, index, cursorPosition, gameIndex, actualTry);
 
     return GestureDetector(
       onTap: () => _changeCursor(index),
