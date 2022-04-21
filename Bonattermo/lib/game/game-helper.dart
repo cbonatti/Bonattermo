@@ -70,8 +70,17 @@ class GameHelper {
     return HistoryFile.appendToFile(text);
   }
 
+  int _getMatchesCount(String word, String letter) {
+    //RegExp exp = new RegExp(r"(\w" + letter + ")");
+    RegExp exp = new RegExp(letter);
+    Iterable<RegExpMatch> matches = exp.allMatches(word);
+    print({word, letter, matches.length});
+    return matches.length;
+  }
+
   WordStyle getWordStyle(
     BuildContext context,
+    String lastTryedWord,
     String letter,
     int wordIndex,
     int cursorPosition,
@@ -87,9 +96,12 @@ class GameHelper {
       color = Colors.red;
     }
     if (word.contains(letter)) {
-      color = Colors.blue;
       if (word[wordIndex] == letter) {
         color = Colors.green;
+      } else {
+        var inSecretWord = _getMatchesCount(word, letter);
+        var inTypedWord = _getMatchesCount(lastTryedWord, letter);
+        if (inSecretWord >= inTypedWord) color = Colors.blue;
       }
     }
     if (cursorPosition == wordIndex && gameIndex == actualTry) {
