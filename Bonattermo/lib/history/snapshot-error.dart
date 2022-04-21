@@ -18,7 +18,7 @@ class SnapshopError extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 16),
-            child: Text('Erro ao carregar histórico. Error: ${error}'),
+            child: Text('Erro ao carregar histórico. Error: $error'),
           )
         ],
       ),

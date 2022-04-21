@@ -71,10 +71,8 @@ class GameHelper {
   }
 
   int _getMatchesCount(String word, String letter) {
-    //RegExp exp = new RegExp(r"(\w" + letter + ")");
     RegExp exp = new RegExp(letter);
     Iterable<RegExpMatch> matches = exp.allMatches(word);
-    print({word, letter, matches.length});
     return matches.length;
   }
 
