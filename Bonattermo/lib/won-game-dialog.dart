@@ -32,11 +32,10 @@ class WonGameDialogBox extends StatelessWidget {
     TextSpan _hardWord(String word) {
       return TextSpan(
         text: word,
-        style: TextStyle(
-          color: Colors.black87,
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-        ),
+        style: Theme.of(context)
+            .textTheme
+            .bodyText1
+            ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20.0),
       );
     }
 
@@ -57,10 +56,7 @@ class WonGameDialogBox extends StatelessWidget {
         TextButton(
           child: Text(
             'Fechar',
-            style: TextStyle(
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.bodyText1,
           ),
           onPressed: () {
             Navigator.of(context).pop();

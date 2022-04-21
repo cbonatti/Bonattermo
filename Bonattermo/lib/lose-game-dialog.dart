@@ -22,21 +22,15 @@ class LoseGameDialogBox extends StatelessWidget {
     TextSpan _normalWord(String word) {
       return TextSpan(
         text: word,
-        style: TextStyle(
-          color: Colors.black87,
-          fontSize: 20.0,
-        ),
+        style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 20.0),
       );
     }
 
     TextSpan _hardWord(String word) {
       return TextSpan(
         text: word,
-        style: TextStyle(
-          color: Colors.black87,
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-        ),
+        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+            fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.red),
       );
     }
 
@@ -53,11 +47,7 @@ class LoseGameDialogBox extends StatelessWidget {
       ),
       actions: <Widget>[
         TextButton(
-          child: Text('Fechar',
-              style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.bold,
-              )),
+          child: Text('Fechar', style: Theme.of(context).textTheme.bodyText1),
           onPressed: () {
             Navigator.of(context).pop();
             Navigator.of(context).pop();
