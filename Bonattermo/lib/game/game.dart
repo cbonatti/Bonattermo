@@ -245,8 +245,8 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-    var builder = GameBuilder(
-        helper, wordsTryed, widget.word, context, cursorPosition, actualTry);
+    var builder = GameBuilder(helper, wordsTryed, widget.word, context,
+        cursorPosition, actualTry, _changeCursor);
     return Scaffold(
       appBar: AppBar(
         title: Text('BonaTTermo'),
