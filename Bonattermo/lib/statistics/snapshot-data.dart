@@ -42,7 +42,7 @@ class StatisticsSnapshotData extends StatelessWidget {
           children: [
             _createCard(context, 'Jogos', results.length.toString()),
             _createCard(context, 'Vitorias', wins.toString()),
-            _createCard(context, 'Win Rate', '${winRate.toStringAsFixed(1)}'),
+            _createCard(context, 'Win Rate', '${winRate.toStringAsFixed(0)}%'),
           ],
         ),
         Padding(padding: EdgeInsets.only(top: 20.0)),
@@ -61,34 +61,54 @@ class StatisticsSnapshotData extends StatelessWidget {
     return Icon(Icons.dangerous);
   }
 
+  double _getHigherRate(List<ResultSummary> summary) {
+    Iterable<double> rates = summary.map((e) => e.getRate());
+    var listRates = List<double>.from(rates);
+    listRates.sort((a, b) => a.compareTo(b));
+    return listRates.last;
+  }
+
+  Widget _createProgressBar(Color color, double width, double rate) {
+    var text = Text(
+      '${rate.toStringAsFixed(0)}%',
+      textAlign: TextAlign.right,
+      style: TextStyle(fontWeight: FontWeight.bold),
+    );
+    if (rate == 0) return text;
+    return Container(
+      height: 30.0,
+      width: width,
+      color: color,
+      child: text,
+    );
+  }
+
   List<Widget> _createListPerTry(BuildContext context, List<Results> results) {
     var screenWidth = MediaQuery.of(context).size.width;
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    var borderColor = themeChange.darkTheme
+    var color = themeChange.darkTheme
         ? Theme.of(context).buttonTheme.colorScheme?.secondary ?? Colors.grey
         : Theme.of(context).primaryColor;
 
     var summary = _getSummary(results);
 
     List<Widget> widgets = [];
+    var maxBarWidth = screenWidth - 100.0;
+
+    var higherRate = _getHigherRate(summary);
+    print(higherRate);
     for (var item in summary) {
+      var rate = item.getRate();
+      var barWidth = (rate * maxBarWidth) / higherRate;
+
       widgets.add(Row(
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 13.0, 10.0, 13.0),
             child: Container(width: 25.0, child: _showIndex(item.index)),
           ),
-          Container(
-            height: 30.0,
-            width: screenWidth - 200.0,
-            color: borderColor,
-            child: Text(
-              '${item.getRate().toStringAsFixed(1)}%',
-              textAlign: TextAlign.right,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
+          _createProgressBar(color, barWidth, rate),
         ],
       ));
     }
@@ -136,7 +156,7 @@ class StatisticsSnapshotData extends StatelessWidget {
             Text(title),
             Text(
               subtitle,
-              style: TextStyle(fontSize: 40.0),
+              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
             ),
           ],
         ),
