@@ -25,16 +25,6 @@ class _HomePageState extends State<HomePage> {
         title: Text('BonaTTermo'),
         actions: [
           ActionButton.create(context, HowToPlayDialogBox(), Icons.info),
-          ActionButton.create(
-            context,
-            ConfirmClearHistoryDialogBox(
-              () async => {
-                await HistoryFile.deleteFile(),
-                setState(() {}), // force reload list
-              },
-            ),
-            Icons.delete,
-          ),
           Padding(
             padding: EdgeInsets.only(right: 20.0),
             child: GestureDetector(
