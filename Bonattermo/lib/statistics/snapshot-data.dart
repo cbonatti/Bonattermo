@@ -74,12 +74,28 @@ class StatisticsSnapshotData extends StatelessWidget {
       textAlign: TextAlign.right,
       style: TextStyle(fontWeight: FontWeight.bold),
     );
-    if (rate == 0) return text;
+
+    if (width <= 35) {
+      return Row(
+        children: [
+          Container(
+            height: 30.0,
+            width: width,
+            color: color,
+          ),
+          text,
+        ],
+      );
+    }
+
     return Container(
       height: 30.0,
       width: width,
       color: color,
-      child: text,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: text,
+      ),
     );
   }
 
@@ -94,10 +110,10 @@ class StatisticsSnapshotData extends StatelessWidget {
     var summary = _getSummary(results);
 
     List<Widget> widgets = [];
-    var maxBarWidth = screenWidth - 100.0;
 
+    var maxBarWidth = screenWidth - 100.0;
     var higherRate = _getHigherRate(summary);
-    print(higherRate);
+
     for (var item in summary) {
       var rate = item.getRate();
       var barWidth = (rate * maxBarWidth) / higherRate;
