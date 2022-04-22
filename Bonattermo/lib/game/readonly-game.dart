@@ -40,7 +40,8 @@ class _ReadOnlyGameState extends State<ReadOnlyGame> {
 
   @override
   Widget build(BuildContext context) {
-    var builder = GameBuilder(helper, widget.wordsTryed, widget.word, context);
+    var builder =
+        GameBuilder(helper, widget.wordsTryed, widget.word, context, 0, 0);
     return AlertDialog(
       content: Center(
         child: Column(

@@ -7,8 +7,11 @@ class GameBuilder {
   final List<String> wordsTryed;
   final String word;
   final BuildContext context;
+  final int cursorPosition;
+  final int actualTry;
 
-  GameBuilder(this.helper, this.wordsTryed, this.word, this.context);
+  GameBuilder(this.helper, this.wordsTryed, this.word, this.context,
+      this.cursorPosition, this.actualTry);
 
   List<Widget> buildGame() {
     List<Widget> widgets = [];
@@ -37,8 +40,8 @@ class GameBuilder {
     String word = wordsTryed[gameIndex - 1];
     String letter = word[index].toUpperCase();
 
-    var wordStyle =
-        helper.getWordStyle(context, word, letter, index, 0, gameIndex, 0);
+    var wordStyle = helper.getWordStyle(
+        context, word, letter, index, cursorPosition, gameIndex, actualTry);
     return Container(
       height: 60.0,
       width: 50.0,

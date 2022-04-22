@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../action-button.dart';
 import '../howToPlay.dart';
 import '../main.dart';
+import 'game-builder.dart';
 import 'game-helper.dart';
 
 class Game extends StatefulWidget {
@@ -141,52 +142,6 @@ class _GameState extends State<Game> {
     });
   }
 
-  Widget _wordBox(int index, int gameIndex) {
-    String word = wordsTryed[gameIndex - 1];
-    String letter = word[index].toUpperCase();
-    var wordStyle = helper.getWordStyle(
-        context, word, letter, index, cursorPosition, gameIndex, actualTry);
-
-    return GestureDetector(
-      onTap: () => _changeCursor(index),
-      child: Container(
-        height: 60.0,
-        width: 50.0,
-        margin: const EdgeInsets.all(3.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: wordStyle.borderColor,
-            width: wordStyle.borderWidth,
-          ),
-          color: wordStyle.color,
-        ),
-        child: Center(
-          child: Text(
-            letter.toUpperCase(),
-            style: TextStyle(
-              fontSize: 47.0,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _createGameBoard(int index) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: _createWordBoxes(index),
-    );
-  }
-
-  List<Widget> _createWordBoxes(int index) {
-    List<Widget> widgets = [];
-    for (var i = 0; i < widget.totalOfLetters; i++) {
-      widgets.add(_wordBox(i, index));
-    }
-    return widgets;
-  }
-
   Widget _createKey(String letter) {
     KeyStyle keyStyle = helper.getKeyStyle(
       letterExists.contains(letter),
@@ -268,14 +223,6 @@ class _GameState extends State<Game> {
     );
   }
 
-  List<Widget> _buildGame() {
-    List<Widget> widgets = [];
-    for (var i = 1; i <= widget.totalOfTrys; i++) {
-      widgets.add(_createGameBoard(i));
-    }
-    return widgets;
-  }
-
   void _onBackPressed() {
     if (actualTry > 1) {
       helper.writeInHistory(false, actualTry - 1, wordsTryed);
@@ -298,6 +245,8 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
+    var builder = GameBuilder(
+        helper, wordsTryed, widget.word, context, cursorPosition, actualTry);
     return Scaffold(
       appBar: AppBar(
         title: Text('BonaTTermo'),
@@ -311,7 +260,7 @@ class _GameState extends State<Game> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(padding: EdgeInsets.only(top: 20.0)),
-          ..._buildGame(),
+          ...builder.buildGame(),
           Expanded(child: Container()),
           _buildKeyboard(),
           Padding(padding: EdgeInsets.only(bottom: 30.0)),
