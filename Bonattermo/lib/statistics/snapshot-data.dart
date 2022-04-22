@@ -51,6 +51,16 @@ class StatisticsSnapshotData extends StatelessWidget {
     );
   }
 
+  Widget _showIndex(String index) {
+    if (index != '')
+      return Text(
+        index,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      );
+    return Icon(Icons.dangerous);
+  }
+
   List<Widget> _createListPerTry(BuildContext context, List<Results> results) {
     var screenWidth = MediaQuery.of(context).size.width;
     final themeChange = Provider.of<DarkThemeProvider>(context);
@@ -67,15 +77,18 @@ class StatisticsSnapshotData extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 13.0, 10.0, 13.0),
-            child: Text(item.index),
+            child: Container(width: 25.0, child: _showIndex(item.index)),
           ),
           Container(
             height: 30.0,
             width: screenWidth - 200.0,
             color: borderColor,
-          )
-          // Text(
-          //     '${item.index.toString()} - ${item.numberOfGamesWonWithThatTry} - ${item.getRate().toStringAsFixed(1)}%'),
+            child: Text(
+              '${item.getRate().toStringAsFixed(1)}%',
+              textAlign: TextAlign.right,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
         ],
       ));
     }
