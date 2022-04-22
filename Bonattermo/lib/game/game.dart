@@ -290,7 +290,7 @@ class _GameState extends State<Game> {
   void initState() {
     super.initState();
     for (var i = 0; i < widget.totalOfTrys; i++) {
-      wordsTryed.add(' '.padRight(5));
+      wordsTryed.add(' '.padRight(widget.totalOfLetters));
     }
     helper = GameHelper(context, widget.word, widget.words, widget.totalOfTrys);
   }
