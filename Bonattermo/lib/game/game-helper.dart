@@ -76,6 +76,21 @@ class GameHelper {
     return matches.length;
   }
 
+  bool _hasAnotherLetterButInCorrectPosition(
+    String word,
+    String wordTryed,
+    String letter,
+    int indexToSkip,
+  ) {
+    for (var i = 0; i < word.length; i++) {
+      if (i != indexToSkip) {
+        if (word.characters.elementAt(i) == letter &&
+            wordTryed.characters.elementAt(i) == letter) return true;
+      }
+    }
+    return false;
+  }
+
   WordStyle getWordStyle(
     BuildContext context,
     String lastTryedWord,
@@ -99,7 +114,16 @@ class GameHelper {
       } else {
         var inSecretWord = _getMatchesCount(word, letter);
         var inTypedWord = _getMatchesCount(lastTryedWord, letter);
-        if (inSecretWord >= inTypedWord) color = Colors.blue;
+
+        if (inSecretWord == inTypedWord) color = Colors.blue;
+        if (inTypedWord > inSecretWord) {
+          var inStartOfWord = _getMatchesCount(
+              lastTryedWord.substring(0, wordIndex + 1), letter);
+          if (inSecretWord >= inStartOfWord) {
+            if (!_hasAnotherLetterButInCorrectPosition(
+                word, lastTryedWord, letter, wordIndex)) color = Colors.blue;
+          }
+        }
       }
     }
     if (cursorPosition == wordIndex && gameIndex == actualTry) {
