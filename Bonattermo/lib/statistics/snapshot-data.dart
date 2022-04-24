@@ -142,6 +142,7 @@ class StatisticsSnapshotData extends StatelessWidget {
 
     List<ResultSummary> summary = [];
     var higherNumbersOfTry = wonGames.last.trys;
+    if (higherNumbersOfTry < 6) higherNumbersOfTry = 6;
     for (var numbersOfTry = 1;
         numbersOfTry <= higherNumbersOfTry;
         numbersOfTry++) {
