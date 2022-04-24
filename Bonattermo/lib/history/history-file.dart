@@ -29,4 +29,16 @@ class HistoryFile {
     final file = await getFile();
     return file.writeAsString(text, mode: FileMode.append);
   }
+
+  static Future<File> changeLastLine(String text) async {
+    final content = await loadHistoryFile();
+
+    var aux = content.substring(0, content.length - 5);
+    var index = aux.lastIndexOf('\n');
+    var newContent = '';
+    if (index != -1) newContent = content.substring(0, index);
+    newContent += text;
+    final file = await getFile();
+    return file.writeAsString(newContent, mode: FileMode.write);
+  }
 }

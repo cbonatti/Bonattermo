@@ -18,7 +18,7 @@ class StatisticsSnapshotData extends StatelessWidget {
     List<Results> results = [];
     for (var item in entries) {
       var aux = item.split(',');
-      if (aux.length > 1) {
+      if (aux.length > 1 && aux[1] != '-') {
         String wordsTryed = aux[3].replaceAll(';', ', ');
         wordsTryed = wordsTryed.substring(0, wordsTryed.length - 2);
 
@@ -42,13 +42,18 @@ class StatisticsSnapshotData extends StatelessWidget {
           children: [
             _createCard(context, 'Jogos', results.length.toString()),
             _createCard(context, 'Vitorias', wins.toString()),
-            _createCard(context, 'Win Rate', '${winRate.toStringAsFixed(0)}%'),
+            _createCard(context, 'Win Rate', getWinrate(winRate)),
           ],
         ),
         Padding(padding: EdgeInsets.only(top: 20.0)),
         ..._createListPerTry(context, results),
       ],
     );
+  }
+
+  String getWinrate(double winRate) {
+    if (winRate == 100) return '${winRate.toStringAsFixed(0)}';
+    return '${winRate.toStringAsFixed(0)}%';
   }
 
   Widget _showIndex(String index) {

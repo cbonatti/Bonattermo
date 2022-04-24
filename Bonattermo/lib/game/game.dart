@@ -1,3 +1,4 @@
+import 'package:bonattermo/history/history-file.dart';
 import 'package:flutter/material.dart';
 import '../action-button.dart';
 import '../howToPlay.dart';
@@ -6,12 +7,14 @@ import 'game-builder.dart';
 import 'game-helper.dart';
 
 class Game extends StatefulWidget {
-  const Game(this.word, this.words, this.totalOfTrys, {this.totalOfLetters = 5})
+  const Game(this.word, this.words, this.totalOfTrys, this.wordsAlreadyTryed,
+      {this.totalOfLetters = 5})
       : super();
   final String word;
   final List<String> words;
-  final totalOfTrys;
-  final totalOfLetters;
+  final int totalOfTrys;
+  final int totalOfLetters;
+  final List<String> wordsAlreadyTryed;
 
   @override
   State<Game> createState() => _GameState();
@@ -97,6 +100,11 @@ class _GameState extends State<Game> {
     }
   }
 
+  void _writeLine() {
+    String text = helper.getHistoryLine('-', actualTry, wordsTryed);
+    HistoryFile.changeLastLine(text);
+  }
+
   void _enter() {
     if (gameFinished) return;
 
@@ -114,6 +122,7 @@ class _GameState extends State<Game> {
 
       _checkWhetherTypedLettersAreInSercretWord();
       _nextWord();
+      _writeLine();
 
       actualTry++;
 
@@ -224,9 +233,6 @@ class _GameState extends State<Game> {
   }
 
   void _onBackPressed() {
-    if (actualTry > 1) {
-      helper.writeInHistory(false, actualTry - 1, wordsTryed);
-    }
     Navigator.of(context).pop();
     Navigator.push(
       context,
@@ -236,7 +242,10 @@ class _GameState extends State<Game> {
 
   void initState() {
     super.initState();
-    for (var i = 0; i < widget.totalOfTrys; i++) {
+    actualTry = widget.wordsAlreadyTryed.length + 1;
+    wordsTryed = widget.wordsAlreadyTryed;
+    var count = widget.totalOfTrys - widget.wordsAlreadyTryed.length;
+    for (var i = 0; i < count; i++) {
       wordsTryed.add(' '.padRight(widget.totalOfLetters));
     }
     helper = GameHelper(context, widget.word, widget.words, widget.totalOfTrys);

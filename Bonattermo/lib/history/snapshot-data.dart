@@ -24,6 +24,8 @@ class SnapshotData extends StatelessWidget {
 
   Widget _buildListItem(List<String> entries, int index, BuildContext context) {
     var result = entries[index].split(',');
+    if (result.length == 1) return Container();
+    if (result[1] == '-') return Container();
     String word = result[0];
     bool won = result[1] == true.toString();
     String trys = result[2];

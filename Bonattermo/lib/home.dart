@@ -2,6 +2,8 @@ import 'package:bonattermo/statistics/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'action-button.dart';
+import 'game/game-page.dart';
+import 'game/game.dart';
 import 'history/clear-history-dialog.dart';
 import 'game/new-game.dart';
 import 'history/history-file.dart';
@@ -56,7 +58,12 @@ class _HomePageState extends State<HomePage> {
       ),
       body: History(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => NewGame().newGame(context),
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => GamePage()),
+          ),
+        },
         tooltip: 'Novo Jogo',
         child: Icon(Icons.play_arrow),
       ),

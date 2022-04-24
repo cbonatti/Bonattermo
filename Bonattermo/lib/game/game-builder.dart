@@ -16,7 +16,7 @@ class GameBuilder {
 
   List<Widget> buildGame() {
     List<Widget> widgets = [];
-    for (var i = 1; i <= wordsTryed.length - 1; i++) {
+    for (var i = 1; i <= wordsTryed.length; i++) {
       widgets.add(_createGameBoard(i));
     }
     return widgets;

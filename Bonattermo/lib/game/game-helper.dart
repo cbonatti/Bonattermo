@@ -60,14 +60,21 @@ class GameHelper {
     return false;
   }
 
-  Future<File> writeInHistory(
-      bool won, int actualTry, List<String> wordsTryed) async {
+  String getHistoryLine(String won, int actualTry, List<String> wordsTryed) {
     String words = '';
     for (var item in wordsTryed) {
       if (!item.contains(' ')) words += '$item;';
     }
-    String text = '$word,${won.toString()},${actualTry.toString()},$words\n';
-    return HistoryFile.appendToFile(text);
+    return '\n$word,${won.toString()},${actualTry.toString()},$words\n';
+  }
+
+  Future<File> writeInHistory(
+    bool won,
+    int actualTry,
+    List<String> wordsTryed,
+  ) async {
+    String text = getHistoryLine(won.toString(), actualTry, wordsTryed);
+    return HistoryFile.changeLastLine(text);
   }
 
   int _getMatchesCount(String word, String letter) {
