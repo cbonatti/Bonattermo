@@ -24,7 +24,7 @@ class _GamePageState extends State<GamePage> {
           }
           var entries = snapshot.data.toString().split('\n');
           var lastGame = entries[entries.length - 2].split(',');
-          print(lastGame);
+
           if (lastGame[1].trim() == '-')
             NewGame().loadGame(context, lastGame[0], lastGame[3].split(';'));
           else

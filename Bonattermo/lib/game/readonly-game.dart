@@ -41,7 +41,6 @@ class _ReadOnlyGameState extends State<ReadOnlyGame> {
   @override
   Widget build(BuildContext context) {
     widget.wordsTryed.removeLast();
-    print(widget.wordsTryed);
     var builder = GameBuilder(
         helper, widget.wordsTryed, widget.word, context, 0, 0, (index) => {});
     return AlertDialog(
