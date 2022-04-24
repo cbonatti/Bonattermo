@@ -1,3 +1,4 @@
+import 'package:bonattermo/config.dart';
 import 'package:bonattermo/statistics/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void handleClick(int item) {
+    switch (item) {
+      case 0:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => StatisticsPage()),
+        );
+        break;
+      case 1:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ConfigPage()),
+        );
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
@@ -23,21 +41,6 @@ class _HomePageState extends State<HomePage> {
         title: Text('BonaTTermo'),
         actions: [
           ActionButton.create(context, HowToPlayDialogBox(), Icons.info),
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => StatisticsPage()),
-                );
-              },
-              child: Icon(
-                Icons.auto_graph,
-                size: 26.0,
-              ),
-            ),
-          ),
           Container(
             height: 10,
             width: 30,
@@ -49,6 +52,39 @@ class _HomePageState extends State<HomePage> {
               },
               value: themeChange.darkTheme,
             ),
+          ),
+          PopupMenuButton<int>(
+            onSelected: (item) => handleClick(item),
+            itemBuilder: (context) => [
+              PopupMenuItem<int>(
+                  value: 0,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.auto_graph,
+                        size: 26.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: Text('Estatísticas'),
+                      ),
+                    ],
+                  )),
+              PopupMenuItem<int>(
+                  value: 1,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.settings,
+                        size: 26.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: Text('Configurações'),
+                      ),
+                    ],
+                  )),
+            ],
           ),
         ],
       ),
