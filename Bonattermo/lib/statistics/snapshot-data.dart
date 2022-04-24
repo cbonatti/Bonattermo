@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:bonattermo/theme/dark-theme-provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,18 +40,14 @@ class StatisticsSnapshotData extends StatelessWidget {
           children: [
             _createCard(context, 'Jogos', results.length.toString()),
             _createCard(context, 'Vitorias', wins.toString()),
-            _createCard(context, 'Win Rate', getWinrate(winRate)),
+            _createCard(context, 'Win Rate', winRate.toStringAsFixed(0),
+                showPercentage: true),
           ],
         ),
         Padding(padding: EdgeInsets.only(top: 20.0)),
         ..._createListPerTry(context, results),
       ],
     );
-  }
-
-  String getWinrate(double winRate) {
-    if (winRate == 100) return '${winRate.toStringAsFixed(0)}';
-    return '${winRate.toStringAsFixed(0)}%';
   }
 
   Widget _showIndex(String index) {
@@ -100,6 +94,24 @@ class StatisticsSnapshotData extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: text,
+      ),
+    );
+  }
+
+  TextStyle _subtitleStyle() =>
+      TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold);
+  Widget _showSubtitle(String text, bool showPercentage) {
+    if (!showPercentage)
+      return Text(
+        text,
+        style: _subtitleStyle(),
+      );
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(text: text, style: _subtitleStyle()),
+          TextSpan(text: '%', style: TextStyle(fontSize: 15.0)),
+        ],
       ),
     );
   }
@@ -156,7 +168,8 @@ class StatisticsSnapshotData extends StatelessWidget {
     return summary;
   }
 
-  Widget _createCard(BuildContext context, String title, String subtitle) {
+  Widget _createCard(BuildContext context, String title, String subtitle,
+      {bool showPercentage = false}) {
     var screenWidth = MediaQuery.of(context).size.width;
     final themeChange = Provider.of<DarkThemeProvider>(context);
     var borderColor = themeChange.darkTheme
@@ -176,10 +189,7 @@ class StatisticsSnapshotData extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(title),
-            Text(
-              subtitle,
-              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
-            ),
+            _showSubtitle(subtitle, showPercentage),
           ],
         ),
       ),
