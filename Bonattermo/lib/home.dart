@@ -35,24 +35,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('BonaTTermo'),
         actions: [
           ActionButton.create(context, HowToPlayDialogBox(), Icons.info),
-          Container(
-            height: 10,
-            width: 30,
-            margin: EdgeInsets.only(right: 10.0),
-            child: SwitchListTile(
-              title: Text("Dark Mode"),
-              onChanged: (val) {
-                themeChange.darkTheme = val;
-              },
-              value: themeChange.darkTheme,
-            ),
-          ),
           PopupMenuButton<int>(
             onSelected: (item) => handleClick(item),
             itemBuilder: (context) => [
