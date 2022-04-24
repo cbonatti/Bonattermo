@@ -1,4 +1,4 @@
-import 'package:bonattermo/config.dart';
+import 'package:bonattermo/config/config.dart';
 import 'package:bonattermo/statistics/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('BonaTTermo'),
@@ -50,6 +51,8 @@ class _HomePageState extends State<HomePage> {
                       Icon(
                         Icons.auto_graph,
                         size: 26.0,
+                        color:
+                            themeChange.darkTheme ? Colors.white : Colors.black,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
@@ -64,6 +67,8 @@ class _HomePageState extends State<HomePage> {
                       Icon(
                         Icons.settings,
                         size: 26.0,
+                        color:
+                            themeChange.darkTheme ? Colors.white : Colors.black,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
