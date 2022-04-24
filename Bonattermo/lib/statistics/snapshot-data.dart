@@ -2,6 +2,8 @@ import 'package:bonattermo/theme/dark-theme-provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'result-summary.dart';
+
 class StatisticsSnapshotData extends StatelessWidget {
   final String? data;
   const StatisticsSnapshotData(this.data) : super();
@@ -98,19 +100,26 @@ class StatisticsSnapshotData extends StatelessWidget {
     );
   }
 
-  TextStyle _subtitleStyle() =>
-      TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold);
-  Widget _showSubtitle(String text, bool showPercentage) {
+  Widget _showSubtitle(String text, bool showPercentage, BuildContext context) {
     if (!showPercentage)
       return Text(
         text,
-        style: _subtitleStyle(),
+        style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
       );
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(text: text, style: _subtitleStyle()),
-          TextSpan(text: '%', style: TextStyle(fontSize: 15.0)),
+          TextSpan(
+              text: text,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontSize: 40.0, fontWeight: FontWeight.bold)),
+          TextSpan(
+              text: '%',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontSize: 15.0,
+                  )),
         ],
       ),
     );
@@ -189,37 +198,10 @@ class StatisticsSnapshotData extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(title),
-            _showSubtitle(subtitle, showPercentage),
+            _showSubtitle(subtitle, showPercentage, context),
           ],
         ),
       ),
     );
   }
-}
-
-class Results {
-  final String word;
-  final bool won;
-  final int trys;
-  final String words;
-
-  Results(this.word, this.won, this.trys, this.words);
-}
-
-class ResultSummary {
-  final String index;
-  final int numberOfGamesWonWithThatTry;
-  final int numberOfGames;
-
-  double getRate() {
-    return (numberOfGamesWonWithThatTry / numberOfGames) * 100;
-  }
-
-  String getRateString() {
-    return ((numberOfGamesWonWithThatTry / numberOfGames) * 100)
-        .toStringAsFixed(1);
-  }
-
-  ResultSummary(
-      this.index, this.numberOfGamesWonWithThatTry, this.numberOfGames);
 }
