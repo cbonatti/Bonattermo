@@ -4,7 +4,7 @@ import 'config-preference.dart';
 
 class ConfigProvider with ChangeNotifier {
   ConfigPreference configPreference = ConfigPreference();
-  int _difficulty = 1;
+  int _difficulty = 0;
   int _gameStyle = 1;
 
   int get difficulty => _difficulty;

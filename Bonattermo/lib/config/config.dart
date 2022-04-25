@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../theme/dark-theme-provider.dart';
+import 'config-preference.dart';
 import 'config-provider.dart';
 
 class ConfigPage extends StatefulWidget {
@@ -13,6 +14,7 @@ class ConfigPage extends StatefulWidget {
 
 class _ConfigPageState extends State<ConfigPage> {
   ConfigProvider config = ConfigProvider();
+  ConfigPreference configPreference = ConfigPreference();
 
   Widget _createChoise(String text, int value) {
     return Padding(
@@ -23,6 +25,7 @@ class _ConfigPageState extends State<ConfigPage> {
         onSelected: (val) {
           setState(() {
             config.difficulty = value;
+            configPreference.setDifficulty(value);
           });
         },
       ),

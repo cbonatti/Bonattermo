@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:bonattermo/config/config-provider.dart';
 import 'package:bonattermo/game/game.dart';
 import 'package:bonattermo/history/history-file.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class NewGame {
   }
 
   final _random = new Random();
+  ConfigProvider config = ConfigProvider();
   int next(int min, int max) => min + _random.nextInt(max - min);
 
   void newGame(BuildContext context) async {
@@ -27,7 +29,8 @@ class NewGame {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => Game(word.toUpperCase(), words, 6, [])),
+          builder: (context) =>
+              Game(word.toUpperCase(), words, _getNumberOfTry(), [])),
     );
   }
 
@@ -43,7 +46,21 @@ class NewGame {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => Game(word.toUpperCase(), words, 6, tryedWords)),
+          builder: (context) =>
+              Game(word.toUpperCase(), words, _getNumberOfTry(), tryedWords)),
     );
+  }
+
+  int _getNumberOfTry() {
+    var difficulty = config.difficulty;
+    switch (difficulty) {
+      case 0:
+        return 8;
+      case 2:
+        return 5;
+
+      default:
+        return 6;
+    }
   }
 }

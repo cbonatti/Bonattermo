@@ -245,6 +245,7 @@ class _GameState extends State<Game> {
     actualTry = widget.wordsAlreadyTryed.length + 1;
     wordsTryed = widget.wordsAlreadyTryed;
     var count = widget.totalOfTrys - widget.wordsAlreadyTryed.length;
+    print(count);
     for (var i = 0; i < count; i++) {
       wordsTryed.add(' '.padRight(widget.totalOfLetters));
     }
